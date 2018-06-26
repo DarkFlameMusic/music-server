@@ -354,6 +354,21 @@ public class AdminFunctionController extends BasePageController {
     }
 
 
+
+    //返回歌手所有歌曲
+    @ApiOperation(value = "获取歌手所有的歌曲")
+    @GetMapping("/get/singer/song")
+    public ResultVO adminGetSingerSong(@RequestParam("singerId") Integer singerId){
+        PageInfo<SongTb> songTbPageInfo = songTbService.findBySingerId(singerId,1,20);
+        List<SongTbVO> songTbVOList = new ArrayList<>();
+        for (SongTb songTb: songTbPageInfo.getList()){
+            SongTbVO songTbVO = new SongTbVO();
+            BeanUtils.copyProperties(songTb,songTbVO);
+            songTbVOList.add(songTbVO);
+        }
+        return ResultVOUtil.success(songTbVOList);
+    }
+
     //查询所有
     //歌单
     @ApiOperation(value = "后台查询所有歌曲 歌单 专辑")
