@@ -59,4 +59,6 @@ public interface SongListTbMapper {
 
     List<SongListTb> findAll();
 
+    int deleteBySongListNameAndUserId(String songListName,Integer userId);
+
 }

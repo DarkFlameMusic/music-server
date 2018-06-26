@@ -247,6 +247,24 @@ public class AdminFunctionController extends BasePageController {
         return ResultVOUtil.success();
     }
 
+    //更新歌单
+    @ApiOperation(value = "更新歌单")
+    @PostMapping("/update/songlist")
+    public ResultVO adminUpdateSongList(SongListTb songListTb){
+        songListTbService.updateOne(songListTb);
+        return ResultVOUtil.success();
+    }
+
+
+    //更新专辑test
+    @ApiOperation(value = "更新专辑")
+    @PostMapping("/update/album")
+    public ResultVO adminUpdateAlbum(AlbumTb albumTb){
+        albumTbService.updateOne(albumTb);
+        return ResultVOUtil.success();
+    }
+
+
     //批量添加
     @ApiOperation(value = "批量添加歌曲到歌单")
     @ApiImplicitParams({

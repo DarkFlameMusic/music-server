@@ -23,4 +23,6 @@ public interface AlbumTbService {
     PageInfo<AlbumTb> findSortIssueTime(Date issueTime, Integer pageNumber, Integer pageSize);
 
     PageInfo<AlbumTb> findAll(Integer pageNumber, Integer pageSize);
+
+    Integer updateOne(AlbumTb albumTb);
 }

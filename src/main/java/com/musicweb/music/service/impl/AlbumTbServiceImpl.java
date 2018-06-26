@@ -62,4 +62,9 @@ public class AlbumTbServiceImpl implements AlbumTbService{
         PageHelper.startPage(pageNumber,pageSize);
         return new PageInfo<>(mapper.findAll());
     }
+
+    @Override
+    public Integer updateOne(AlbumTb albumTb) {
+        return null;
+    }
 }

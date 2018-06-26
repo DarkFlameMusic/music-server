@@ -73,4 +73,13 @@
         SELECT *
         FROM album_tb
     </select>
+
+    <update id="updateOne" parameterType="com.musicweb.music.entity.AlbumTb">
+        UPDATE album_tb
+        <set>
+            singer_id=#{singerId},album_name=#{albumName},company_name=#{companyName},
+            album_intro=#{albumIntro},album_img=#{albumImg},issue_time=#{issueTime},
+            comment_number=#{commentNumber},play_number=#{playNumber},share_number=#{shareNumber}
+        </set>
+    </update>
 </mapper>
