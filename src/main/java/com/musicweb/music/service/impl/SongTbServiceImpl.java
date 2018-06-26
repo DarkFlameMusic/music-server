@@ -59,4 +59,9 @@ public class SongTbServiceImpl implements SongTbService {
         PageHelper.startPage(pageNumber,pageSize);
         return new PageInfo<>(mapper.findAll());
     }
+
+    @Override
+    public Integer updateOne(SongTb songTb) {
+        return mapper.updateOne(songTb);
+    }
 }

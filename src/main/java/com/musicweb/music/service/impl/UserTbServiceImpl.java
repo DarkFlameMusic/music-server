@@ -24,6 +24,8 @@ public class UserTbServiceImpl implements UserTbService{
     @Autowired
     private SongListTbMapper songListTbMapper;
 
+    private final String MYMUSIC = "我喜欢的音乐";
+
     @Override
     public UserTb findById(Integer id) {
         return mapper.findByUserId(id);
@@ -77,10 +79,11 @@ public class UserTbServiceImpl implements UserTbService{
         Integer result = mapper.insertForSignIn(userTb);
         VerifyUserUtil.verifyNotNull(userTb);
         SongListTb songListTb = new SongListTb();
-        songListTb.setSongListName("我喜欢的音乐");
+        songListTb.setSongListName(MYMUSIC);
         songListTb.setSongListImg("default");
         songListTb.setCreateTime(new Date());
         songListTb.setUserId(userTb.getUserId());
+        songListTb.setLabel("goubi,龚华健");
         songListTbMapper.insertOne(songListTb);
         return result;
     }
@@ -100,7 +103,9 @@ public class UserTbServiceImpl implements UserTbService{
     }
 
     @Override
+    @Transactional
     public Integer deleteById(Integer userId) {
+        songListTbMapper.deleteBySongListNameAndUserId(MYMUSIC,userId);
         return mapper.deleteById(userId);
     }
 

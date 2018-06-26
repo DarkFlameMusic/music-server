@@ -22,4 +22,6 @@ public interface SongTbService {
     PageInfo<SongTb> findBySingerId(Integer singerId, Integer pageNumber, Integer pageSize);
 
     PageInfo<SongTb> findAll(Integer pageNumber, Integer pageSize);
+
+    Integer updateOne(SongTb songTb);
 }

@@ -47,4 +47,9 @@
             (#{item.songListId}, #{item.songId})
         </foreach>
     </insert>
+
+    <select id="findBySongListIdAndSongId" resultMap="BaseResultMap">
+        SELECT * FROM song_list_song_tb
+        WHERE song_list_id=#{arg0} AND song_id=#{songId}
+    </select>
 </mapper>

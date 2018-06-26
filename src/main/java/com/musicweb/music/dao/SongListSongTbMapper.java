@@ -32,5 +32,7 @@ public interface SongListSongTbMapper {
 
     int insertList(List<SongListSongTb> songListSongTbList);
 
+    SongListSongTb findBySongListIdAndSongId(Integer songListId,Integer songId);
+
 
 }

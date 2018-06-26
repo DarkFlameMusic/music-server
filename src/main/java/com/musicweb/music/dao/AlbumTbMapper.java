@@ -22,4 +22,6 @@ public interface AlbumTbMapper {
     List<AlbumTb> findSortIssueTime(Date issueTime);
 
     List<AlbumTb> findAll();
+
+    int updateOne(AlbumTb albumTb);
 }

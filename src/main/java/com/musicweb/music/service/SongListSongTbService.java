@@ -15,4 +15,7 @@ public interface SongListSongTbService {
     List<SongListSongTb> findBySongId(Integer songId);
 
     Integer insertList(Integer songListId,List<Integer> list);
+
+    SongListSongTb findBySongListIdAndSongId(Integer songListId,Integer songId);
+
 }
