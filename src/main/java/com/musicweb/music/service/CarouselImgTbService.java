@@ -14,4 +14,6 @@ public interface CarouselImgTbService {
     Integer deleteOne(Integer carouselId);
 
     PageInfo<CarouselImgTb> searchByLinkUrl(String content,Integer pageNumber, Integer pageSize);
+
+    Integer updateOne(CarouselImgTb carouselImgTb);
 }

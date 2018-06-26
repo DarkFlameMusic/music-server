@@ -38,4 +38,9 @@ public class CarouselImgTbServiceImpl implements CarouselImgTbService{
         PageHelper.startPage(pageNumber,pageSize);
         return new PageInfo<>(mapper.searchByLinkUrl(content));
     }
+
+    @Override
+    public Integer updateOne(CarouselImgTb carouselImgTb) {
+        return mapper.updateOne(carouselImgTb);
+    }
 }

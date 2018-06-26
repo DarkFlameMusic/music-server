@@ -21,14 +21,14 @@ public interface SongTbMapper {
 
     List<SongTb> findSortPlayNumber();
 
-    @Update("update song_tb set " +
-            "song_id=#{songId},singer_id=#{singerId}," +
-            "song_name=#{songName},album_id=#{albumId}," +
-            "song_time=#{songTime},sing_style=#{singStyle}," +
-            "language=#{language},comment_number=#{commentNumber}," +
-            "play_number=#{playNumber},create_time=#{createTime}," +
-            "lyric=#{lyric} where song_id=#{songId}")
-    int updateOne(SongTb songTb);
+//    @Update("update song_tb set " +
+//            "song_id=#{songId},singer_id=#{singerId}," +
+//            "song_name=#{songName},album_id=#{albumId}," +
+//            "song_time=#{songTime},sing_style=#{singStyle}," +
+//            "language=#{language},comment_number=#{commentNumber}," +
+//            "play_number=#{playNumber},create_time=#{createTime}," +
+//            "lyric=#{lyric} where song_id=#{songId}")
+//    int updateOne(SongTb songTb);
 
     @Delete("delete from song_tb where song_id=#{songId}")
     int deleteById(Integer id);
@@ -44,5 +44,7 @@ public interface SongTbMapper {
     List<SongTb> findBySingerId(Integer singerId);
 
     List<SongTb> findAll();
+
+    int updateOne(SongTb songTb);
 
 }

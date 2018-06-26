@@ -39,4 +39,11 @@
         </where>
     </select>
 
+    <update id="updateOne" parameterType="com.musicweb.music.entity.CarouselImgTb">
+        UPDATE carousel_tb
+        <set>
+            carousel_img=#{carouselImg},carousel_url=#{carouselUrl},create_time=#{createTime}
+        </set>
+    </update>
+
 </mapper>

@@ -33,5 +33,7 @@ public interface CarouselImgTbMapper {
     List<CarouselImgTb> searchByLinkUrl(String content);
 
 
+    int updateOne(CarouselImgTb carouselImgTb);
+
 
 }

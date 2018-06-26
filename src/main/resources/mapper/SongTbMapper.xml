@@ -16,7 +16,7 @@
         <id column="play_number" property="playNumber" jdbcType="INTEGER" />
         <id column="create_time" property="createTime" jdbcType="TIMESTAMP" />
         <id column="lyric" property="lyric" jdbcType="VARCHAR" />
-        <id column="song_url" property="songUrl" jdbcType="VARCHAR"></id>
+        <id column="song_url" property="songUrl" jdbcType="VARCHAR"/>
     </resultMap>
 
     <select id="findSortPlayNumber" resultMap="BaseResultMap">
@@ -75,5 +75,16 @@
         SELECT *
         FROM song_tb
     </select>
+
+    <update id="updateOne" parameterType="com.musicweb.music.entity.SongTb">
+        UPDATE song_tb
+        <set>
+            singer_id=#{singerId},song_name=#{songName},album_id=#{albumId},
+            mv_id=#{mvId},song_time=#{songTime},sing_style=#{singStyle},
+            song_tb.language=#{language},comment_number={commentNumber},
+            play_number=#{playNumber},create_time=#{createTime},lyric=#{lyric},
+            song_url=#{song_url}
+        </set>
+    </update>
 
 </mapper>

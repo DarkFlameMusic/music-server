@@ -237,6 +237,14 @@ public class AdminFunctionController extends BasePageController {
 
     }
 
+    //更新轮播图
+    @ApiOperation(value = "更新轮播图")
+    @PostMapping("/update/carousel")
+    public ResultVO adminUpdateCarousel(CarouselImgTb carouselImgTb){
+        carouselImgTbService.updateOne(carouselImgTb);
+        return ResultVOUtil.success();
+    }
+
     //认证歌手
     @ApiOperation(value = "认证歌手", notes = "修改用户权限")
     @PostMapping("/identify/singer")
@@ -250,17 +258,79 @@ public class AdminFunctionController extends BasePageController {
     //更新歌单
     @ApiOperation(value = "更新歌单")
     @PostMapping("/update/songlist")
-    public ResultVO adminUpdateSongList(SongListTb songListTb){
+    public ResultVO adminUpdateSongList(@RequestParam("songListId") Integer songListId,
+                                        @RequestParam("file") MultipartFile multipartFile,
+                                        @RequestParam("songListName") String songListName,
+                                        @RequestParam("label") String label) throws IOException {
+        SongListTb songListTb = songListTbService.findBySongListId(songListId);
+        FileInputStream fileInputStream = (FileInputStream) multipartFile.getInputStream();
+        songListTb.setSongListImg(UploadUtil.commonUpload(fileInputStream,multipartFile.getOriginalFilename()));
+        songListTb.setSongListName(songListName);
+        songListTb.setLabel(label);
         songListTbService.updateOne(songListTb);
         return ResultVOUtil.success();
     }
+    //歌单添加歌曲
+    @ApiOperation(value = "歌单添加歌曲")
+    @PostMapping("/insert/songlist/song")
+    public ResultVO adminInsertSongListSong(@RequestParam("songListId") Integer songListId,
+                                            @RequestParam("songId") Integer songId){
+        SongListSongTb songListSongTb = new SongListSongTb();
+        songListSongTb.setSongListId(songListId);
+        songListSongTb.setSongId(songId);
+        songListSongTb.setCreateTime(new Date());
+        songListSongTbService.insertOne(songListSongTb);
+        return ResultVOUtil.success();
+    }
+
+    //歌单删除歌曲
+    @ApiOperation(value = "歌单删除歌曲")
+    @PostMapping("/delete/songlist/song")
+    public ResultVO adminDeleteSongListSong(@RequestParam("songListId") Integer songListId,
+                                            @RequestParam("songId") Integer songId){
+        SongListSongTb songListSongTb = new SongListSongTb();
+        songListSongTb.setSongListId(songListId);
+        songListSongTb.setSongId(songId);
+        songListSongTb.setCreateTime(new Date());
+        songListSongTbService.deleteBySongListSongId(songListSongTbService.findBySongListIdAndSongId(songListId,songId).getSongListSongId());
+        return ResultVOUtil.success();
+    }
+
 
 
     //更新专辑test
     @ApiOperation(value = "更新专辑")
     @PostMapping("/update/album")
-    public ResultVO adminUpdateAlbum(AlbumTb albumTb){
+    public ResultVO adminUpdateAlbum(@RequestParam("albumId") Integer albumId,
+                                     @RequestParam("file") MultipartFile multipartFile,
+                                     @RequestParam("albumName") String albumName) throws IOException {
+        AlbumTb albumTb = albumTbService.findByAlbumId(albumId);
+        FileInputStream fileInputStream = (FileInputStream) multipartFile.getInputStream();
+        albumTb.setAlbumImg(UploadUtil.commonUpload(fileInputStream,multipartFile.getOriginalFilename()));
+        albumTb.setAlbumName(albumName);
         albumTbService.updateOne(albumTb);
+        return ResultVOUtil.success();
+    }
+
+    //专辑添加歌曲
+    @ApiOperation(value = "专辑添加歌曲")
+    @PostMapping("/insert/album/song")
+    public ResultVO adminInsertAlbumSong(@RequestParam("albumId") Integer albumId,
+                                         @RequestParam("songId") Integer songId){
+        SongTb songTb = songTbService.findBySongId(songId);
+        songTb.setAlbumId(albumId);
+        songTbService.updateOne(songTb);
+        return ResultVOUtil.success();
+    }
+    //专辑删除歌曲
+    @ApiOperation(value = "专辑删除歌曲")
+    @PostMapping("/delete/album/song")
+    public ResultVO adminDeleteAlbumSong(@RequestParam("albumId") Integer albumId,
+                                         @RequestParam("songId") Integer songId){
+        //TODO 删除歌曲
+        SongTb songTb = songTbService.findBySongId(songId);
+        songTb.setAlbumId(null);
+        songTbService.updateOne(songTb);
         return ResultVOUtil.success();
     }
 

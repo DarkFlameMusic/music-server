@@ -50,4 +50,9 @@ public class SongListSongTbServiceImpl implements SongListSongTbService{
 
         return mapper.insertList(songListSongTbList);
     }
+
+    @Override
+    public SongListSongTb findBySongListIdAndSongId(Integer songListId, Integer songId) {
+        return mapper.findBySongListIdAndSongId(songListId,songId);
+    }
 }
