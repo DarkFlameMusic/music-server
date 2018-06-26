@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.musicweb.music.dao.FavorSongTbMapper">
+    <resultMap id="BaseResultMap" type="com.musicweb.music.entity.favortable.FavorSongTb">
+        <id column="favor_song_id" property="favorSongId" jdbcType="INTEGER" />
+        <id column="user_id" property="userId" jdbcType="INTEGER" />
+        <id column="song_id" property="songId" jdbcType="INTEGER" />
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <id column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <select id="findBySongId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT *
+        FROM favor_song_tb
+        WHERE song_id=#{songId}
+    </select>
+
+    <select id="findByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT *
+        FROM favor_song_tb
+        WHERE user_id=#{userId}
+    </select>
+
+    <select id="findByUserIdAndSongId" resultMap="BaseResultMap">
+        SELECT *
+        FROM favor_song_tb
+        WHERE user_id=#{arg0} AND song_id=#{arg1}
+    </select>
+
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="favorSongId"
+            keyColumn="favor_song_id" parameterType="com.musicweb.music.entity.favortable.FavorSongTb">
+        INSERT INTO
+        favor_song_tb(user_id,song_id,create_time)
+        VALUES
+        #{userId},#{songId},#{createTime}
+    </insert>
+
+    <delete id="deleteOne">
+        DELETE FROM
+        favor_song_tb
+        WHERE user_id=#{arg0} AND song_id=#{arg1}
+    </delete>
+</mapper>

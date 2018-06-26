@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.musicweb.music.dao.SongTbMapper">
+    <resultMap id="BaseResultMap" type="com.musicweb.music.entity.SongTb">
+        <id column="song_id" property="songId" jdbcType="INTEGER" />
+        <id column="singer_id" property="singerId" jdbcType="INTEGER" />
+        <id column="song_name" property="songName" jdbcType="VARCHAR" />
+        <id column="album_id" property="albumId" jdbcType="INTEGER" />
+        <id column="mv_id" property="mvId" jdbcType="INTEGER" />
+        <id column="song_time" property="songTime" jdbcType="INTEGER" />
+        <id column="sing_style" property="singStyle" jdbcType="VARCHAR" />
+        <id column="language" property="language" jdbcType="VARCHAR" />
+        <id column="comment_number" property="commentNumber" jdbcType="INTEGER" />
+        <id column="play_number" property="playNumber" jdbcType="INTEGER" />
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <id column="lyric" property="lyric" jdbcType="VARCHAR" />
+        <id column="song_url" property="songUrl" jdbcType="VARCHAR"></id>
+    </resultMap>
+
+    <select id="findSortPlayNumber" resultMap="BaseResultMap">
+        SELECT *
+        FROM song_tb
+        ORDER BY play_number
+        DESC
+    </select>
+
+    <select id="findSortCreateTime" resultMap="BaseResultMap">
+        SELECT *
+        FROM song_tb
+        ORDER BY play_number DESC ,create_time DESC
+    </select>
+
+    <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT *
+        FROM song_tb
+        WHERE song_id=#{songId}
+    </select>
+
+    <select id="findByAlbumId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT *
+        FROM song_tb
+        WHERE album_id=#{albumId}
+    </select>
+
+    <select id="searchBySongName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT *
+        FROM song_tb
+        <where>
+            <if test="_parameter!=null">
+                song_name LIKE '%${_parameter}%'
+            </if>
+        </where>
+    </select>
+
+    <select id="searchByLyric" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT *
+        FROM song_tb
+        <where>
+            <if test="_parameter!=null">
+                lyric LIKE '%${_parameter}%'
+            </if>
+        </where>
+    </select>
+
+    <select id="findBySingerId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT *
+        FROM song_tb
+        WHERE singer_id = #{singerId}
+        ORDER BY play_number
+    </select>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT *
+        FROM song_tb
+    </select>
+
+</mapper>

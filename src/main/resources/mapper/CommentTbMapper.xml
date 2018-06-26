@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.musicweb.music.dao.CommentTbMapper">
+
+    <resultMap id="BaseResultMap" type="com.musicweb.music.entity.CommentTb">
+        <id column="comment_id" property="commentId" jdbcType="INTEGER" />
+        <id column="object_id" property="objectId" jdbcType="INTEGER" />
+        <id column="user_id" property="userId" jdbcType="INTEGER" />
+        <id column="object_type" property="objectType" jdbcType="INTEGER" />
+        <id column="comment" property="comment" jdbcType="VARCHAR" />
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <id column="admire_number" property="admireNumber" jdbcType="INTEGER" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        comment_id,object_id,user_id,object_type,comment,create_time,admire_number
+    </sql>
+
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="commentId"
+            keyColumn="comment_id" parameterType="com.musicweb.music.entity.CommentTb">
+        INSERT INTO
+        comment_tb(object_id,user_id,object_type,comment,create_time)
+        VALUES
+        (#{objectId},#{userId},#{objectType},#{comment},#{createTime})
+    </insert>
+
+    <delete id="deleteOne">
+        DELETE FROM
+        comment_tb
+        WHERE comment_id=#{commentId}
+    </delete>
+
+    <select id="findByObjectId" resultMap="BaseResultMap">
+        SELECT *
+        FROM comment_tb
+        WHERE (object_id=#{arg0} AND object_type=#{arg1})
+    </select>
+
+    <select id="findByPage" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM comment_tb
+        WHERE object_id=#{arg0} AND object_type = #{arg1}
+        ORDER BY create_time
+        DESC
+    </select>
+
+    <select id="findSortAdmireNumber" resultMap="BaseResultMap">
+        SELECT *
+        FROM comment_tb
+        WHERE object_id=#{arg0} AND object_type = #{arg1} AND admire_number >= #{arg2}
+        ORDER BY admire_number
+        DESC
+    </select>
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.musicweb.music.dao.CarouselImgTbMapper">
+    <resultMap id="BaseResultMap" type="com.musicweb.music.entity.CarouselImgTb">
+        <id column="carousel_img_id" property="carouselImgId" jdbcType="INTEGER" />
+        <id column="carousel_img" property="carouselImg" jdbcType="VARCHAR" />
+        <id column="carousel_url" property="carouselUrl" jdbcType="VARCHAR" />
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT *
+        FROM carousel_img_tb
+        ORDER BY create_time
+        DESC
+    </select>
+
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="carouselImgId"
+            keyColumn="carousel_img_id" parameterType="com.musicweb.music.entity.CarouselImgTb">
+        INSERT INTO
+        carousel_img_tb(carousel_img,carousel_url,create_time)
+        VALUES (#{carouselImg},#{carouselUrl},#{createTime})
+    </insert>
+
+    <delete id="deleteById">
+        DELETE FROM carousel_img_tb
+        WHERE carousel_id=#{carouselId}
+    </delete>
+
+    <select id="searchByLinkUrl" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT *
+        FROM carousel_img_tb
+        <where>
+            <if test="_parameter!=null">
+                carousel_url LIKE '%${_parameter}%'
+            </if>
+        </where>
+    </select>
+
+</mapper>

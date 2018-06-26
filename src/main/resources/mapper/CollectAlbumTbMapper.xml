@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.musicweb.music.dao.CollectAlbumTbMapper">
+    <resultMap id="BaseResultMap" type="com.musicweb.music.entity.collecttable.CollectAlbumTb">
+        <id column="collect_album_id" property="collectAlbumId" jdbcType="INTEGER" />
+        <id column="user_id" property="userId" jdbcType="INTEGER" />
+        <id column="album_id" property="albumId" jdbcType="INTEGER" />
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <select id="findByAlbumId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT *
+        FROM collect_album_tb
+        WHERE album_id=#{albumId}
+    </select>
+
+    <select id="findByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT *
+        FROM collect_album_tb
+        WHERE user_id=#{userId}
+    </select>
+
+    <select id="findByUserIdAndAlbumId" resultMap="BaseResultMap">
+        SELECT *
+        FROM collect_album_tb
+        WHERE user_id=#{arg0} AND album_id=#{arg1}
+    </select>
+
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="collectAlbumId"
+            keyColumn="collect_album_id" parameterType="com.musicweb.music.entity.collecttable.CollectAlbumTb">
+        INSERT INTO
+        collect_album_tb(user_id,album_id,create_time)
+        VALUES
+        #{userId},#{albumId},#{createTime}
+    </insert>
+
+    <delete id="deleteOne">
+        DELETE FROM
+        collect_album_tb
+        WHERE user_id=#{arg0} AND album_id=#{arg1}
+    </delete>
+</mapper>
