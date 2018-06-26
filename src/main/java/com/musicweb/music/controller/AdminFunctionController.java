@@ -430,7 +430,7 @@ public class AdminFunctionController extends BasePageController {
 //        return ResultVOUtil.success();
 //    }
 //
-
+    
     @PostMapping("/test")
     public ResultVO test(@RequestBody CarouselImgTb carouselImgTb) {
         return ResultVOUtil.success();
