@@ -2,12 +2,17 @@ package com.musicweb.music.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.musicweb.music.VO.AlbumTbVO;
+import com.musicweb.music.VO.SongTbVO;
 import com.musicweb.music.dao.AlbumTbMapper;
 import com.musicweb.music.entity.AlbumTb;
+import com.musicweb.music.entity.SongTb;
 import com.musicweb.music.service.AlbumTbService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 @Service
@@ -15,6 +20,9 @@ public class AlbumTbServiceImpl implements AlbumTbService{
 
     @Autowired
     private AlbumTbMapper mapper;
+
+    @Autowired
+    private SongTbServiceImpl songTbService;
 
     @Override
     public PageInfo<AlbumTb> findBySingerIdSortIssueTime(Integer singerId,Integer pageNumber, Integer pageSize) {
@@ -65,6 +73,24 @@ public class AlbumTbServiceImpl implements AlbumTbService{
 
     @Override
     public Integer updateOne(AlbumTb albumTb) {
-        return null;
+        return mapper.updateOne(albumTb);
+    }
+
+    public Integer deleteOne(Integer albumId){
+        return mapper.deleteById(albumId);
+    }
+
+    public AlbumTbVO getAlbumTbVObyAlbumId(Integer albumId){
+        AlbumTbVO albumTbVO = new AlbumTbVO();
+        AlbumTb albumTb = this.findByAlbumId(albumId);
+        BeanUtils.copyProperties(albumTb,albumTbVO);
+        List<SongTb> songTbs = songTbService.findByAlbumId(albumTb.getAlbumId());
+        List<SongTbVO> songTbVOS = new ArrayList<>();
+        for (SongTb songTb : songTbs) {
+            SongTbVO songTbVO = songTbService.getSongTbVoBySongTb(songTb);
+            songTbVOS.add(songTbVO);
+        }
+        albumTbVO.setSongs(songTbVOS);
+        return albumTbVO;
     }
 }

@@ -14,6 +14,7 @@ import com.musicweb.music.service.impl.CommentTbServiceImpl;
 import com.musicweb.music.service.impl.SingerTbServiceImpl;
 import com.musicweb.music.service.impl.SongTbServiceImpl;
 import com.musicweb.music.utils.ResultVOUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,10 +57,4 @@ public class SongController extends BasePageController{
 
         return ResultVOUtil.success(songPageVO);
     }
-
-
-
-
-
-
 }

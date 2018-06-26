@@ -81,5 +81,7 @@
             album_intro=#{albumIntro},album_img=#{albumImg},issue_time=#{issueTime},
             comment_number=#{commentNumber},play_number=#{playNumber},share_number=#{shareNumber}
         </set>
+        WHERE album_id = #{albumId}
     </update>
+
 </mapper>

@@ -50,7 +50,7 @@ public class LoginAndRegisterController {
         UserTb userTb = userTbService.findByUsername(username);
         VerifyUserUtil.verifyUser(userTb, MD5Util.encode(password));
         //设置用户标识码
-        String token = TokenUtil.createToken(userTb.getUserId(),username,10000*60*6);
+        String token = TokenUtil.createToken(userTb.getUserId(),username,10000*60*60);
         UserTbVO userTbVO = new UserTbVO();
         BeanUtils.copyProperties(userTb,userTbVO);
         userTbVO.setBirthDate(DateUtil.dateToString(userTb.getBirthDate()));

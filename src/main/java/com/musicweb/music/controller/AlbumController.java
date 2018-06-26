@@ -113,6 +113,19 @@ public class AlbumController extends BasePageController {
             albumTbVOList.add(albumTbVO);
         }
         return albumTbVOList;
+    }
 
+    @ApiOperation(value="获取专辑信息")
+    @GetMapping(value = "/album")
+    public ResultVO<AlbumTb> getAlbumById(@RequestParam(value = "id") Integer albumId){
+        AlbumTbVO albumTbVO = albumTbService.getAlbumTbVObyAlbumId(albumId);
+        return ResultVOUtil.success(albumTbVO);
+    }
+
+    @ApiOperation(value="删除专辑")
+    @GetMapping(value = "/album/delete")
+    public ResultVO<AlbumTb> deleteAlbumById(@RequestParam(value = "id") Integer albumId){
+        albumTbService.deleteOne(albumId);
+        return ResultVOUtil.success();
     }
 }

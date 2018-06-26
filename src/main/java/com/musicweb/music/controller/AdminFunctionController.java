@@ -302,14 +302,22 @@ public class AdminFunctionController extends BasePageController {
     @ApiOperation(value = "更新专辑")
     @PostMapping("/update/album")
     public ResultVO adminUpdateAlbum(@RequestParam("albumId") Integer albumId,
-                                     @RequestParam("file") MultipartFile multipartFile,
-                                     @RequestParam("albumName") String albumName) throws IOException {
+                                     @RequestParam(value = "file",required = false) MultipartFile multipartFile,
+                                     @RequestParam(value = "albumName",required = false) String albumName) throws IOException {
         AlbumTb albumTb = albumTbService.findByAlbumId(albumId);
-        FileInputStream fileInputStream = (FileInputStream) multipartFile.getInputStream();
-        albumTb.setAlbumImg(UploadUtil.commonUpload(fileInputStream,multipartFile.getOriginalFilename()));
-        albumTb.setAlbumName(albumName);
+        if(multipartFile!=null){
+            FileInputStream fileInputStream = (FileInputStream) multipartFile.getInputStream();
+            albumTb.setAlbumImg(UploadUtil.commonUpload(fileInputStream,multipartFile.getOriginalFilename()));
+        }
+        if(albumName!=null){
+            albumTb.setAlbumName(albumName);
+        }
         albumTbService.updateOne(albumTb);
-        return ResultVOUtil.success();
+
+        albumTb = albumTbService.findByAlbumId(albumId);
+        AlbumTbVO albumTbVO = new AlbumTbVO();
+        BeanUtils.copyProperties(albumTb,albumTbVO);
+        return ResultVOUtil.success(albumTbVO);
     }
 
     //专辑添加歌曲
@@ -328,9 +336,7 @@ public class AdminFunctionController extends BasePageController {
     public ResultVO adminDeleteAlbumSong(@RequestParam("albumId") Integer albumId,
                                          @RequestParam("songId") Integer songId){
         //TODO 删除歌曲
-        SongTb songTb = songTbService.findBySongId(songId);
-        songTb.setAlbumId(null);
-        songTbService.updateOne(songTb);
+        songTbService.deleteOne(songId);
         return ResultVOUtil.success();
     }
 

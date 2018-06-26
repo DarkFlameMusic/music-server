@@ -3,9 +3,12 @@ package com.musicweb.music.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.musicweb.music.VO.SongTbVO;
 import com.musicweb.music.dao.SongTbMapper;
+import com.musicweb.music.entity.AlbumTb;
 import com.musicweb.music.entity.SongTb;
 import com.musicweb.music.service.SongTbService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,10 @@ public class SongTbServiceImpl implements SongTbService {
 
     @Autowired
     private SongTbMapper mapper;
+
+    @Autowired
+    private AlbumTbServiceImpl albumTbService;
+
     @Override
     public List<SongTb> findSortPlayNumber() {
         return mapper.findSortPlayNumber();
@@ -63,5 +70,18 @@ public class SongTbServiceImpl implements SongTbService {
     @Override
     public Integer updateOne(SongTb songTb) {
         return mapper.updateOne(songTb);
+    }
+
+    public Integer deleteOne(Integer songId){
+        return(mapper.deleteById(songId));
+    }
+
+    public SongTbVO getSongTbVoBySongTb(SongTb songTb){
+        SongTbVO songTbVO = new SongTbVO();
+        BeanUtils.copyProperties(songTb,songTbVO);
+        songTbVO.setLabels(songTb.getSingStyle().split(","));
+        AlbumTb albumTb = albumTbService.findByAlbumId(songTb.getAlbumId());
+        songTbVO.setImage(albumTb.getAlbumImg());
+        return songTbVO;
     }
 }
