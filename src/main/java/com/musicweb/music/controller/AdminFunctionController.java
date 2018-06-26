@@ -276,7 +276,9 @@ public class AdminFunctionController extends BasePageController {
         songListTbService.updateOne(songListTb);
         return ResultVOUtil.success();
     }
-    //更新专辑
+
+
+    //更新专辑test
     @ApiOperation(value = "更新专辑")
     @PostMapping("/update/album")
     public ResultVO adminUpdateAlbum(AlbumTb albumTb){
