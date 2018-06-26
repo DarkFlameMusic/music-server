@@ -1,0 +1,39 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/music?characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 123456
+    type: com.mchange.v2.c3p0.ComboPooledDataSource
+  mail:
+    host: smtp.qq.com
+    username: 825597202@qq.com
+    password: aqnqwbmofcvpbfji
+    properties:
+          mail:
+              smtp:
+                  auth: ture
+                  starttls:
+                    enable: true
+                    required: true
+  http:
+    multipart:
+      max-request-size: 50MB
+      max-file-size: 4MB
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+mapper:
+  package:
+    path: com.music.music.dao
+  xml:
+    config:
+      path: /mapper/*.xml
+
+

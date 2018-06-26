@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.musicweb.music.dao.SongListSongTbMapper">
+
+    <resultMap id="BaseResultMap" type="com.musicweb.music.entity.SongListSongTb">
+        <id column="song_list_song_id" property="songListSongId" jdbcType="INTEGER" />
+        <id column="song_list_id" property="songListId" jdbcType="INTEGER" />
+        <id column="song_id" property="songId" jdbcType="INTEGER" />
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <select id="findBySongListId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT *
+        FROM song_list_song_tb
+        WHERE song_list_id=#{songListId}
+    </select>
+
+    <select id="findBySongId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT *
+        FROM song_list_song_tb
+        WHERE song_id=#{songId}
+    </select>
+
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="songListSongId"
+            keyColumn="song_list_song_id" parameterType="com.musicweb.music.entity.SongListSongTb">
+        INSERT INTO
+        song_list_song_tb(song_list_id,song_id)
+        VALUES
+        (#{songListId},#{songId})
+    </insert>
+
+    <delete id="deleteBySongListSongId">
+        DELETE FROM
+        song_list_song_tb
+        WHERE
+        song_list_song_id=#{songListSongId}
+    </delete>
+    
+    <insert id="insertList" useGeneratedKeys="true" keyProperty="songListSongId"
+            keyColumn="song_list_song_id" parameterType="java.util.List">
+        INSERT INTO
+        song_list_song_tb(song_list_id,song_id)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.songListId}, #{item.songId})
+        </foreach>
+    </insert>
+</mapper>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.musicweb.music.dao.MvTbMapper">
+
+    <resultMap id="BaseResultMap" type="com.musicweb.music.entity.MvTb">
+        <id column="mv_id" property="mvId" jdbcType="INTEGER" />
+        <id column="singer_id" property="singerId" jdbcType="INTEGER" />
+        <id column="mv_name" property="mvName" jdbcType="VARCHAR" />
+        <id column="comment_number" property="commentNumber" jdbcType="INTEGER" />
+        <id column="play_number" property="playNumber" jdbcType="INTEGER" />
+        <id column="share_number" property="shareNumber" jdbcType="INTEGER" />
+        <id column="collect_number" property="collectNumber" jdbcType="INTEGER" />
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    
+    <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT  mv_id, mv_name, comment_number, play_number,
+        share_number,collect_number,create_time
+        FROM mv_tb
+        WHERE mv_id = #{mv_id,jdbcType=INTEGER}
+    </select>
+
+    <select id="findBySingerId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT *
+        FROM mv_tb
+        WHERE singer_id=#{singerId}
+        ORDER BY create_time
+        DESC
+    </select>
+
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="mvId"
+            keyColumn="mv_id" parameterType="com.musicweb.music.entity.MvTb">
+        INSERT INTO
+        mv_tb(mv_name,comment_number,play_number,
+        share_number,collect_number)
+        VALUES
+        (#{mvName},#{commentNumber},#{playNumber},#{shareNumber},#{collectNumber})
+    </insert>
+
+    <update id="updateOne" parameterType="com.musicweb.music.entity.MvTb">
+        UPDATE mv_tb
+        <set>
+            mv_name=#{mvName},comment_number=#{commentNumber},play_number=#{playNumber},
+            share_number=#{shareNumber},collect_number=#{collectNumber}
+        </set>
+        WHERE mv_id=#{mvId}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM
+        mv_tb
+        WHERE
+        mv_id=#{mvId}
+    </delete>
+
+    <select id="searchByMvName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT *
+        FROM mv_tb
+        <where>
+            <if test="_parameter!=null">
+                mv_name LIKE '%${_parameter}%'
+            </if>
+        </where>
+    </select>
+
+</mapper>

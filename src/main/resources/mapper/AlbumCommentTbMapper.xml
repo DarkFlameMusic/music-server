@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.musicweb.music.dao.AlbumCommentTbMapper">
+
+    <resultMap id="BaseResultMap" type="com.musicweb.music.entity.commenttable.AlbumCommentTb">
+        <id column="song_comment_id" property="songCommentId" jdbcType="INTEGER" />
+        <id column="album_id" property="albumId" jdbcType="INTEGER" />
+        <id column="user_id" property="userId" jdbcType="INTEGER" />
+        <id column="comment" property="comment" jdbcType="VARCHAR" />
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <id column="admire_number" property="admireNumber" jdbcType="INTEGER" />
+    </resultMap>
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="albumCommentId"
+            keyColumn="album_comment_id" parameterType="com.musicweb.music.entity.commenttable.AlbumCommentTb">
+        INSERT INTO
+        album_comment_tb(album_id,user_id,comment,create_time)
+        VALUES
+        (#{albumId},#{userId},#{comment},#{createTime})
+    </insert>
+</mapper>

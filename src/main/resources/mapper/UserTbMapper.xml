@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.musicweb.music.dao.UserTbMapper">
+
+    <resultMap id="BaseResultMap" type="com.musicweb.music.entity.UserTb">
+        <id column="user_id" property="userId" jdbcType="INTEGER" />
+        <id column="username" property="username" jdbcType="VARCHAR" />
+        <id column="password" property="password" jdbcType="VARCHAR" />
+        <id column="user_nickname" property="userNickname" jdbcType="VARCHAR" />
+        <id column="mail" property="mail" jdbcType="VARCHAR" />
+        <id column="phone_number" property="phoneNumber" jdbcType="INTEGER" />
+        <id column="head_img" property="headImg" jdbcType="VARCHAR" />
+        <id column="jurisdiction" property="jurisdiction" jdbcType="INTEGER" />
+        <id column="birth_date" property="birthDate" jdbcType="TIMESTAMP" />
+        <id column="area" property="area" jdbcType="VARCHAR" />
+        <id column="person_intro" property="personIntro" jdbcType="VARCHAR" />
+        <id column="attention_number" property="attentionNumber" jdbcType="INTEGER" />
+        <id column="fan_number" property="fanNumber" jdbcType="INTEGER" />
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <id column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <id column="captcha" property="captcha" jdbcType="VARCHAR" />
+        <id column="gender" property="gender" jdbcType="INTEGER" />
+    </resultMap>
+
+    <select id="findByUsername" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT *
+        FROM user_tb
+        WHERE username=#{username,jdbcType=VARCHAR}
+    </select>
+
+    <select id="findByUserNickname" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT *
+        FROM user_tb
+        <where>
+            <if test="_parameter!=null">
+                user_nickname LIKE '%${_parameter}%'
+            </if>
+        </where>
+    </select>
+
+    <select id="findByJurisdiction" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT *
+        FROM user_tb
+        WHERE jurisdiction=#{jurisdiction,jdbcType=INTEGER}
+    </select>
+
+    <select id="findByCaptcha" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT *
+        FROM user_tb
+        WHERE captcha=#{captcha,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insertForSignIn" useGeneratedKeys="true" keyProperty="userId"
+             keyColumn="user_id" parameterType="com.musicweb.music.entity.UserTb">
+        INSERT INTO
+        user_tb(username,password,user_nickname,mail,jurisdiction,captcha,gender,head_img)
+        VALUES
+        (#{username},#{password},#{userNickname},#{mail},#{jurisdiction},#{captcha},#{gender},#{headImg})
+    </insert>
+
+    <update id="updateByUserId" parameterType="com.musicweb.music.entity.UserTb">
+        UPDATE user_tb
+        <set>
+            username=#{username},password=#{password},
+            user_nickname=#{userNickname},mail=#{mail},
+            phone_number=#{phoneNumber},head_img=#{headImg},
+            jurisdiction=#{jurisdiction},birth_date=#{birthDate},
+            area=#{area},person_intro=#{personIntro},
+            attention_number=#{attentionNumber},fan_number=#{fanNumber},
+            captcha=#{captcha},gender=#{gender}
+        </set>
+        WHERE user_id=#{userId}
+    </update>
+
+    <select id="searchByUserNickname" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT *
+        FROM user_tb
+        <where>
+            <if test="_parameter!=null">
+                user_nickname LIKE '%${_parameter}%'
+            </if>
+        </where>
+    </select>
+</mapper>

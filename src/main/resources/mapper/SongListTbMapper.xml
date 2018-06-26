@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.musicweb.music.dao.SongListTbMapper">
+    <resultMap id="BaseResultMap" type="com.musicweb.music.entity.SongListTb">
+        <id column="song_list_id" property="songListId" jdbcType="INTEGER" />
+        <id column="song_list_name" property="songListName" jdbcType="VARCHAR" />
+        <id column="song_list_intro" property="songListIntro" jdbcType="VARCHAR" />
+        <id column="user_id" property="userId" jdbcType="INTEGER" />
+        <id column="label" property="label" jdbcType="VARCHAR" />
+        <id column="song_list_img" property="songListImg" jdbcType="VARCHAR" />
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <id column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <id column="comment_number" property="commentNumber" jdbcType="INTEGER" />
+        <id column="play_number" property="playNumber" jdbcType="INTEGER" />
+        <id column="share_number" property="shareNumber" jdbcType="INTEGER" />
+        <id column="collect_number" property="collectNumber" jdbcType="INTEGER" />
+    </resultMap>
+
+    <select id="findSortCreateTime" resultMap="BaseResultMap">
+        SELECT *
+        FROM song_list_tb
+        ORDER BY create_time
+        DESC
+    </select>
+
+    <select id="findSortCommentNumber" resultMap="BaseResultMap">
+        SELECT *
+        FROM song_list_tb
+        ORDER BY comment_number
+        DESC
+    </select>
+
+    <select id="findSortPlayNumber" resultMap="BaseResultMap">
+        SELECT *
+        FROM song_list_tb
+        ORDER BY play_number
+        DESC
+    </select>
+
+    <select id="findSortShareNumber" resultMap="BaseResultMap">
+        SELECT *
+        FROM song_list_tb
+        ORDER BY share_number
+        DESC
+    </select>
+
+    <select id="findSortCollectNumber" resultMap="BaseResultMap">
+        SELECT *
+        FROM song_list_tb
+        ORDER BY collect_number
+        DESC
+    </select>
+
+    <select id="findByLabel" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT *
+        FROM song_list_tb
+        WHERE label=#{label,jdbcType=VARCHAR}
+        ORDER BY play_number
+        DESC
+    </select>
+
+    <select id="findByLabelSort" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT *
+        FROM song_list_tb
+        WHERE label=#{label}
+        ORDER BY create_time
+        DESC
+    </select>
+
+    <select id="findByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT *
+        FROM song_list_tb
+        WHERE user_id=#{userId,jdbcType=INTEGER}
+    </select>
+
+    <select id="findBySongListId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT *
+        FROM song_list_tb
+        WHERE song_list_id=#{songListId}
+    </select>
+
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="songListId"
+            keyColumn="song_list_id" parameterType="com.musicweb.music.entity.SongListTb">
+        INSERT INTO
+        song_list_tb(song_list_name,create_time,user_id)
+        VALUES
+        (#{songListName},#{createTime},#{userId})
+    </insert>
+
+    <update id="updateOne" parameterType="com.musicweb.music.entity.SongListTb">
+        UPDATE song_list_tb
+        <set>
+            song_list_name=#{songListName},song_list_intro=#{songListIntro},
+            label=#{label},song_list_img=#{songListImg}
+        </set>
+        WHERE song_list_id=#{songListId}
+    </update>
+
+    <delete id="deleteBySongListId">
+        DELETE FROM
+        song_list_tb
+        WHERE song_list_id=#{songListId}
+    </delete>
+
+    <select id="searchBySongListName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT *
+        FROM song_list_tb
+        <where>
+            <if test="_parameter!=null">
+                song_list_name LIKE '%${_parameter}%'
+            </if>
+        </where>
+    </select>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT *
+        FROM song_list_tb
+    </select>
+
+</mapper>

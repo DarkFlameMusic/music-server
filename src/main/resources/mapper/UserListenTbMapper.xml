@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.musicweb.music.dao.UserListenTbMapper">
+
+    <resultMap id="BaseResultMap" type="com.musicweb.music.entity.UserListenTb">
+        <id column="user_listen_id" property="userListenId" jdbcType="INTEGER" />
+        <id column="user_id" property="userId" jdbcType="INTEGER" />
+        <id column="song_id" property="songId" jdbcType="INTEGER" />
+        <id column="play_number" property="playNumber" jdbcType="INTEGER" />
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <id column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <select id="findByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT *
+        FROM user_listen_tb
+        ORDER BY play_number
+        DESC
+    </select>
+
+    <select id="findByUserIdAndSongId" resultMap="BaseResultMap">
+        SELECT *
+        FROM user_listen_tb
+        WHERE user_id=#{arg0} AND song_id=#{arg1}
+    </select>
+
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="userListId"
+            keyColumn="user_listen_id" parameterType="com.musicweb.music.entity.UserListenTb">
+        INSERT INTO
+        user_listen_tb(user_id,song_id,play_number,create_time)
+        VALUES
+        (#{userId},#{songId},#{playNumber},#{createTime})
+    </insert>
+
+    <update id="updateOne" parameterType="com.musicweb.music.entity.UserListenTb">
+        UPDATE user_listen_tb
+        <set>
+            user_id=#{userId},song_id=#{songId},
+            play_number=#{playNumber},create_time=#{createTime}
+        </set>
+        WHERE user_listen_id=#{userListenId}
+    </update>
+</mapper>
