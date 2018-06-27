@@ -39,7 +39,13 @@ public class LoginAspect {
         if (cookie == null){
             throw new MusicException(ExceptionEnum.DATA_NULL);
         }
-        Claims claims = TokenUtil.parseToken(cookie.getValue());
+        Claims claims;
+        try {
+            claims = TokenUtil.parseToken(cookie.getValue());
+        }catch (Exception e){
+            throw new MusicException(ExceptionEnum.TOKEN_EXPIRE);
+        }
+
         if (Integer.valueOf(claims.getId()) != userTbService.findByUsername(claims.getSubject()).getUserId()){
             throw new MusicException(ExceptionEnum.TOKEN_ERROR);
         }

@@ -16,7 +16,8 @@ public enum ExceptionEnum {
     UNKNOWN_TYPE(1111,"未知的类型"),
     LIST_OVERFLOW(5555,"超出List的大小"),
     DATA_EXIST(666,"数据已存在"),
-    DELETE_ERROR(4654,"删除失败")
+    DELETE_ERROR(4654,"删除失败"),
+    TOKEN_EXPIRE(1234,"Token过期或Token错误")
     ;
 
 

@@ -181,10 +181,11 @@ public class AdminFunctionController extends BasePageController {
     public ResultVO uploadCarouselImg(HttpServletRequest request,
                                       @RequestParam(value = "file") MultipartFile multipartFile,
                                       @RequestParam(value = "linkUrl") String linkUrl,
-                                      @RequestParam(value = "number") Integer number) {
+                                      @RequestParam(value = "number",required = false) Integer number) {
         try {
             FileInputStream fileInputStream = (FileInputStream) multipartFile.getInputStream();
-            String filePath = UploadUtil.coverUpload(fileInputStream, CAROUSELIMGNAME + number, ".jpg");
+            String filePath = UploadUtil.commonUpload(fileInputStream,multipartFile.getOriginalFilename());
+//            String filePath = UploadUtil.coverUpload(fileInputStream, CAROUSELIMGNAME + number, ".jpg");
             CarouselImgTb carouselImgTb = new CarouselImgTb();
             carouselImgTb.setCarouselImg(filePath);
             carouselImgTb.setCarouselUrl(linkUrl);
@@ -205,7 +206,7 @@ public class AdminFunctionController extends BasePageController {
     //获取所有轮播图
     @ApiOperation(value = "获取所有轮播图")
     @GetMapping("/get/carousel")
-    public ResultVO getCarousel(@RequestParam("pageNumber") Integer pageNumber,
+    public ResultVO getCarousel(@RequestParam(value = "pageNumber",defaultValue = "1") Integer pageNumber,
                                 @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize) {
         PageInfo<CarouselImgTb> carouselImgTbPageInfo = carouselImgTbService.findAll(pageNumber, pageSize);
 
@@ -259,9 +260,9 @@ public class AdminFunctionController extends BasePageController {
     @ApiOperation(value = "更新歌单")
     @PostMapping("/update/songlist")
     public ResultVO adminUpdateSongList(@RequestParam("songListId") Integer songListId,
-                                        @RequestParam("file") MultipartFile multipartFile,
-                                        @RequestParam("songListName") String songListName,
-                                        @RequestParam("label") String label) throws IOException {
+                                        @RequestParam(value = "file",required = false) MultipartFile multipartFile,
+                                        @RequestParam(value = "songListName",required = false) String songListName,
+                                        @RequestParam(value = "label",required = false) String label) throws IOException {
         SongListTb songListTb = songListTbService.findBySongListId(songListId);
         FileInputStream fileInputStream = (FileInputStream) multipartFile.getInputStream();
         songListTb.setSongListImg(UploadUtil.commonUpload(fileInputStream,multipartFile.getOriginalFilename()));

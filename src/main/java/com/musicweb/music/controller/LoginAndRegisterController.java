@@ -50,11 +50,11 @@ public class LoginAndRegisterController {
         UserTb userTb = userTbService.findByUsername(username);
         VerifyUserUtil.verifyUser(userTb, MD5Util.encode(password));
         //设置用户标识码
-        String token = TokenUtil.createToken(userTb.getUserId(),username,10000*60*60);
+        String token = TokenUtil.createToken(userTb.getUserId(),username,10000*60*60*10);
         UserTbVO userTbVO = new UserTbVO();
         BeanUtils.copyProperties(userTb,userTbVO);
         userTbVO.setBirthDate(DateUtil.dateToString(userTb.getBirthDate()));
-        CookieUtil.set(response,"Token",token,6000);
+        CookieUtil.set(response,"Token",token,60000);
         return ResultVOUtil.success(0,"登陆成功",ResultVOUtil.success(0,token,null));
     }
 
