@@ -15,6 +15,12 @@
         <id column="play_number" property="playNumber" jdbcType="INTEGER" />
         <id column="share_number" property="shareNumber" jdbcType="INTEGER" />
     </resultMap>
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="albumId"
+            keyColumn="album_id" parameterType="com.musicweb.music.entity.AlbumTb">
+        INSERT INTO album_tb(album_name,company_name,album_intro,album_img,singer_id)
+        VALUES
+        (#{albumName},#{companyName},#{albumIntro},#{albumImg},#{singerId})
+    </insert>
 
     <select id="findBySingerIdSortIssueTime" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         SELECT *

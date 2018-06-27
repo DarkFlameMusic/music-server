@@ -8,6 +8,7 @@ import com.musicweb.music.dao.AlbumTbMapper;
 import com.musicweb.music.entity.AlbumTb;
 import com.musicweb.music.entity.SongTb;
 import com.musicweb.music.service.AlbumTbService;
+import io.swagger.models.auth.In;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -79,6 +80,8 @@ public class AlbumTbServiceImpl implements AlbumTbService{
     public Integer deleteOne(Integer albumId){
         return mapper.deleteById(albumId);
     }
+
+    public Integer insertOne(AlbumTb albumTb){return  mapper.insertOne(albumTb);}
 
     public AlbumTbVO getAlbumTbVObyAlbumId(Integer albumId){
         AlbumTbVO albumTbVO = new AlbumTbVO();

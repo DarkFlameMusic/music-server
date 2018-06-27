@@ -24,8 +24,11 @@ public interface AlbumTbMapper {
 
     List<AlbumTb> findAll();
 
+    Integer insertOne(AlbumTb albumTb);
+
     int updateOne(AlbumTb albumTb);
 
     @Delete("delete from album_tb where album_id = #{id}")
     int deleteById(Integer id);
+
 }

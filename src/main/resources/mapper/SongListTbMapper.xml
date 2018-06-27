@@ -121,7 +121,7 @@
 
     <delete id="deleteBySongListNameAndUserId">
         DELETE FROM song_list_tb
-        WHERE song_list_name=#{arg0} AND user_id=#{userId}
+        WHERE song_list_name=#{arg0} AND user_id=#{arg1}
     </delete>
 
 </mapper>

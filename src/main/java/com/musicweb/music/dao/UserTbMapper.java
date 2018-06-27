@@ -43,7 +43,7 @@ public interface UserTbMapper {
 
     List<UserTb> searchByUserNickname(String content);
 
-    @Delete("delete from user_tb where user_id=#{userId}")
+    @Delete("delete from user_tb where user_id=#{id}")
     int deleteById(Integer id);
 
 }

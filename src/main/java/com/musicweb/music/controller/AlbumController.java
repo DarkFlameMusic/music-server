@@ -10,12 +10,17 @@ import com.musicweb.music.service.impl.CommentTbServiceImpl;
 import com.musicweb.music.service.impl.SingerTbServiceImpl;
 import com.musicweb.music.utils.DateUtil;
 import com.musicweb.music.utils.ResultVOUtil;
+import com.musicweb.music.utils.UploadUtil;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -126,6 +131,27 @@ public class AlbumController extends BasePageController {
     @GetMapping(value = "/album/delete")
     public ResultVO<AlbumTb> deleteAlbumById(@RequestParam(value = "id") Integer albumId){
         albumTbService.deleteOne(albumId);
+        return ResultVOUtil.success();
+    }
+
+    @ApiOperation(value="创建专辑")
+    @PostMapping(value = "/album/create")
+    public ResultVO<AlbumTb> createAlbum(@RequestParam(value = "albumName") String albumName,
+                                         @RequestParam(value = "company") String company,
+                                         @RequestParam(value = "intro") String intro,
+                                         @RequestParam(value = "singerId") Integer singerId,
+                                         @RequestParam(value = "file") MultipartFile image) throws IOException {
+        AlbumTb albumTb = new AlbumTb();
+        albumTb.setAlbumName(albumName);
+        albumTb.setCompanyName(company);
+        albumTb.setAlbumIntro(intro);
+        albumTb.setSingerId(singerId);
+        FileInputStream fileInputStream = (FileInputStream) image.getInputStream();
+        String filePath = UploadUtil.commonUpload(fileInputStream,image.getOriginalFilename());
+        albumTb.setAlbumImg(filePath);
+
+        albumTbService.insertOne(albumTb);
+
         return ResultVOUtil.success();
     }
 }
