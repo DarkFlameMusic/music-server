@@ -175,44 +175,9 @@ public class AdminFunctionController extends BasePageController {
     }
 
 
-    //上传轮播图
-    @ApiOperation(value = "上传轮播图")
-    @PostMapping(value = "/upload/carousel")
-    public ResultVO uploadCarouselImg(HttpServletRequest request,
-                                      @RequestParam(value = "file") MultipartFile multipartFile,
-                                      @RequestParam(value = "linkUrl") String linkUrl,
-                                      @RequestParam(value = "number",required = false) Integer number) {
-        try {
-            FileInputStream fileInputStream = (FileInputStream) multipartFile.getInputStream();
-            String filePath = UploadUtil.commonUpload(fileInputStream,multipartFile.getOriginalFilename());
-//            String filePath = UploadUtil.coverUpload(fileInputStream, CAROUSELIMGNAME + number, ".jpg");
-            CarouselImgTb carouselImgTb = new CarouselImgTb();
-            carouselImgTb.setCarouselImg(filePath);
-            carouselImgTb.setCarouselUrl(linkUrl);
-            carouselImgTb.setCreateTime(new Date());
-            CarouselImgTbVO carouselImgTbVO = new CarouselImgTbVO();
-            carouselImgTbService.insertOne(carouselImgTb);
-            carouselImgTbVO.setCarouselUrl(linkUrl);
-            carouselImgTbVO.setCarouselImg(filePath);
 
-            return ResultVOUtil.success(carouselImgTbVO);
 
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
-    }
 
-    //获取所有轮播图
-    @ApiOperation(value = "获取所有轮播图")
-    @GetMapping("/get/carousel")
-    public ResultVO getCarousel(@RequestParam(value = "pageNumber",defaultValue = "1") Integer pageNumber,
-                                @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize) {
-        PageInfo<CarouselImgTb> carouselImgTbPageInfo = carouselImgTbService.findAll(pageNumber, pageSize);
-
-        PageResultVO pageResultVO = new PageResultVO(carouselImgTbPageInfo.getPages(), carouselImgTbPageInfo.getTotal(), carouselImgTbPageInfo.getPageNum(), carouselImgTbPageInfo.getSize(), carouselImgTbPageInfo.getList());
-        return ResultVOUtil.success(pageResultVO);
-    }
 
     //删除轮播图
     @ApiOperation(value = "删除轮播图")
@@ -238,14 +203,6 @@ public class AdminFunctionController extends BasePageController {
 
     }
 
-    //更新轮播图
-    @ApiOperation(value = "更新轮播图")
-    @PostMapping("/update/carousel")
-    public ResultVO adminUpdateCarousel(CarouselImgTb carouselImgTb){
-        carouselImgTbService.updateOne(carouselImgTb);
-        return ResultVOUtil.success();
-    }
-
     //认证歌手
     @ApiOperation(value = "认证歌手", notes = "修改用户权限")
     @PostMapping("/identify/singer")
@@ -256,46 +213,6 @@ public class AdminFunctionController extends BasePageController {
         return ResultVOUtil.success();
     }
 
-    //更新歌单
-    @ApiOperation(value = "更新歌单")
-    @PostMapping("/update/songlist")
-    public ResultVO adminUpdateSongList(@RequestParam("songListId") Integer songListId,
-                                        @RequestParam(value = "file",required = false) MultipartFile multipartFile,
-                                        @RequestParam(value = "songListName",required = false) String songListName,
-                                        @RequestParam(value = "label",required = false) String label) throws IOException {
-        SongListTb songListTb = songListTbService.findBySongListId(songListId);
-        FileInputStream fileInputStream = (FileInputStream) multipartFile.getInputStream();
-        songListTb.setSongListImg(UploadUtil.commonUpload(fileInputStream,multipartFile.getOriginalFilename()));
-        songListTb.setSongListName(songListName);
-        songListTb.setLabel(label);
-        songListTbService.updateOne(songListTb);
-        return ResultVOUtil.success();
-    }
-    //歌单添加歌曲
-    @ApiOperation(value = "歌单添加歌曲")
-    @PostMapping("/insert/songlist/song")
-    public ResultVO adminInsertSongListSong(@RequestParam("songListId") Integer songListId,
-                                            @RequestParam("songId") Integer songId){
-        SongListSongTb songListSongTb = new SongListSongTb();
-        songListSongTb.setSongListId(songListId);
-        songListSongTb.setSongId(songId);
-        songListSongTb.setCreateTime(new Date());
-        songListSongTbService.insertOne(songListSongTb);
-        return ResultVOUtil.success();
-    }
-
-    //歌单删除歌曲
-    @ApiOperation(value = "歌单删除歌曲")
-    @PostMapping("/delete/songlist/song")
-    public ResultVO adminDeleteSongListSong(@RequestParam("songListId") Integer songListId,
-                                            @RequestParam("songId") Integer songId){
-        SongListSongTb songListSongTb = new SongListSongTb();
-        songListSongTb.setSongListId(songListId);
-        songListSongTb.setSongId(songId);
-        songListSongTb.setCreateTime(new Date());
-        songListSongTbService.deleteBySongListSongId(songListSongTbService.findBySongListIdAndSongId(songListId,songId).getSongListSongId());
-        return ResultVOUtil.success();
-    }
 
 
 

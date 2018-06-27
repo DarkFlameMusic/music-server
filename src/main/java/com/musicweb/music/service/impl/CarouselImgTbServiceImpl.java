@@ -43,4 +43,8 @@ public class CarouselImgTbServiceImpl implements CarouselImgTbService{
     public Integer updateOne(CarouselImgTb carouselImgTb) {
         return mapper.updateOne(carouselImgTb);
     }
+
+    public CarouselImgTb getCarouselImgTbById(Integer id){
+        return mapper.findById(id);
+    }
 }

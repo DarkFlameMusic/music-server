@@ -8,17 +8,21 @@ import com.musicweb.music.enums.CommentTypeEnum;
 import com.musicweb.music.enums.ExceptionEnum;
 import com.musicweb.music.exception.MusicException;
 import com.musicweb.music.service.impl.*;
-import com.musicweb.music.utils.DateUtil;
-import com.musicweb.music.utils.IntegerUtil;
-import com.musicweb.music.utils.ResultVOUtil;
+import com.musicweb.music.utils.*;
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -225,10 +229,6 @@ public class SongListController extends BasePageController{
         }
         return ResultVOUtil.success(pageResultVO);
     }
-
-
-
-
     private List<SongListTbVO> handleAllsongList(PageInfo<SongListTb> songListTbPageInfo){
         List<SongListTbVO> songListTbVOList = new ArrayList<>();
         for (SongListTb songListTb:songListTbPageInfo.getList()){
@@ -273,6 +273,94 @@ public class SongListController extends BasePageController{
     }
 
 
+    //更新歌单
+    @ApiOperation(value = "更新歌单")
+    @PostMapping("/update/songlist")
+    public ResultVO adminUpdateSongList(@RequestParam("songListId") Integer songListId,
+                                        @RequestParam(value = "file",required = false) MultipartFile multipartFile,
+                                        @RequestParam(value = "songListName",required = false) String songListName,
+                                        @RequestParam(value = "label",required = false) String label) throws IOException {
+        SongListTb songListTb = songListTbService.findBySongListId(songListId);
+        if(multipartFile!=null){
+            FileInputStream fileInputStream = (FileInputStream) multipartFile.getInputStream();
+            songListTb.setSongListImg(UploadUtil.commonUpload(fileInputStream,multipartFile.getOriginalFilename()));
+        }
+        songListTb.setSongListName(songListName);
+        songListTb.setLabel(label);
+        songListTbService.updateOne(songListTb);
+        return ResultVOUtil.success();
+    }
+    //歌单添加歌曲
+    @ApiOperation(value = "歌单添加歌曲")
+    @PostMapping("/insert/songlist/song")
+    public ResultVO adminInsertSongListSong(@RequestParam("songListId") Integer songListId,
+                                            @RequestParam("songId") Integer songId){
+        SongListSongTb songListSongTb = new SongListSongTb();
+        songListSongTb.setSongListId(songListId);
+        songListSongTb.setSongId(songId);
+        songListSongTb.setCreateTime(new Date());
+        songListSongTbService.insertOne(songListSongTb);
+        return ResultVOUtil.success();
+    }
 
+    //歌单删除歌曲
+    @ApiOperation(value = "歌单删除歌曲")
+    @PostMapping("/delete/songlist/song")
+    public ResultVO adminDeleteSongListSong(@RequestParam("songListId") Integer songListId,
+                                            @RequestParam("songId") Integer songId){
+        SongListSongTb songListSongTb = new SongListSongTb();
+        songListSongTb.setSongListId(songListId);
+        songListSongTb.setSongId(songId);
+        songListSongTb.setCreateTime(new Date());
+        songListSongTbService.deleteBySongListSongId(songListSongTbService.findBySongListIdAndSongId(songListId,songId).getSongListSongId());
+        return ResultVOUtil.success();
+    }
+
+    //创建歌单
+    @ApiOperation(value = "创建歌单")
+    @PostMapping(value = "/createsonglist")
+    public ResultVO createSongList(HttpServletRequest request,
+                                   @RequestParam(value = "songListName") String songListName,
+                                   @RequestParam(value = "labels",required = false) String labels,
+                                   @RequestParam(value = "intro",required = false) String intro,
+                                   @RequestParam(value = "image",required = false) MultipartFile imageFile) throws IOException {
+        Claims claims = TokenUtil.parseToken(CookieUtil.get(request, "Token").getValue());
+        Integer userId = Integer.valueOf(claims.getId());
+        SongListTb songListTb = new SongListTb();
+        songListTb.setSongListName(songListName);
+        songListTb.setCreateTime(new Date());
+        songListTb.setUserId(userId);
+        if(labels!=null){
+            songListTb.setLabel(labels);
+        }else {
+            songListTb.setLabel("");
+        }
+        if(intro!=null){
+            songListTb.setSongListIntro(intro);
+        }else {
+            songListTb.setSongListIntro("");
+        }
+        if(imageFile!=null){
+            FileInputStream fileInputStream = (FileInputStream) imageFile.getInputStream();
+            songListTb.setSongListImg(UploadUtil.commonUpload(fileInputStream,imageFile.getOriginalFilename()));
+        }else {
+            songListTb.setSongListImg("http://p1.music.126.net/tGHU62DTszbFQ37W9qPHcg==/2002210674180197.jpg?param=200y200");
+        }
+
+        songListTbService.insertOne(songListTb);
+        songListTb = songListTbService.findBySongListId(songListTb.getSongListId());
+        return ResultVOUtil.success(0, "创建成功", songListTb);
+    }
+
+
+    //删除歌单
+    @ApiOperation(value = "删除歌单")
+    @PostMapping(value = "/deletesonglist")
+    public ResultVO deleteSongList(HttpServletRequest request,
+                                   @RequestParam("songListId") Integer songListId) {
+        Claims claims = TokenUtil.parseToken(CookieUtil.get(request, "Token").getValue());
+        songListTbService.deleteOne(songListId);
+        return ResultVOUtil.success(0, "删除成功", null);
+    }
 
 }

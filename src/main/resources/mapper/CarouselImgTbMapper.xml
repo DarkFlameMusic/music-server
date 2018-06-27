@@ -40,9 +40,9 @@
     </select>
 
     <update id="updateOne" parameterType="com.musicweb.music.entity.CarouselImgTb">
-        UPDATE carousel_tb
+        UPDATE carousel_img_tb
         <set>
-            carousel_img=#{carouselImg},carousel_url=#{carouselUrl},create_time=#{createTime}
+            carousel_img=#{carouselImg},carousel_url=#{carouselUrl}
         </set>
         WHERE carousel_img_id=#{carouselImgId}
     </update>

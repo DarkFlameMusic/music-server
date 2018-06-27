@@ -10,8 +10,6 @@ import java.util.Date;
 @Entity
 @Table(name = "song_list_tb")
 public class SongListTb {
-
-
     @Id
     @GeneratedValue
     //歌单id

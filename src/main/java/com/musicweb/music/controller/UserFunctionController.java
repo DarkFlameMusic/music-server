@@ -131,31 +131,6 @@ public class UserFunctionController {
     }
 
 
-    //创建歌单
-    @ApiOperation(value = "创建歌单")
-    @PostMapping(value = "/createsonglist")
-    public ResultVO createSongList(HttpServletRequest request,
-                                   @RequestParam("songListName") String songListName) {
-        Claims claims = TokenUtil.parseToken(CookieUtil.get(request, "Token").getValue());
-        Integer userId = Integer.valueOf(claims.getId());
-        SongListTb songListTb = new SongListTb();
-        songListTb.setSongListName(songListName);
-        songListTb.setCreateTime(new Date());
-        songListTb.setUserId(userId);
-
-        songListTbService.insertOne(songListTb);
-        return ResultVOUtil.success(0, "创建成功", songListTb);
-    }
-
-    //删除歌单
-    @ApiOperation(value = "删除歌单")
-    @PostMapping(value = "/deletesonglist")
-    public ResultVO deleteSongList(HttpServletRequest request,
-                                   @RequestParam("songListId") Integer songListId) {
-        Claims claims = TokenUtil.parseToken(CookieUtil.get(request, "Token").getValue());
-        songListTbService.deleteOne(songListId);
-        return ResultVOUtil.success(0, "删除成功", null);
-    }
 
     //编辑歌单
     @ApiOperation(value = "编辑歌单")

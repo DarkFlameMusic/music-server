@@ -50,6 +50,6 @@
 
     <select id="findBySongListIdAndSongId" resultMap="BaseResultMap">
         SELECT * FROM song_list_song_tb
-        WHERE song_list_id=#{arg0} AND song_id=#{songId}
+        WHERE song_list_id=#{arg0} AND song_id=#{arg1}
     </select>
 </mapper>

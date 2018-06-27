@@ -84,9 +84,9 @@
     <insert id="insertOne" useGeneratedKeys="true" keyProperty="songListId"
             keyColumn="song_list_id" parameterType="com.musicweb.music.entity.SongListTb">
         INSERT INTO
-        song_list_tb(song_list_name,create_time,user_id)
+        song_list_tb(song_list_name,create_time,user_id,label,song_list_intro,song_list_img)
         VALUES
-        (#{songListName},#{createTime},#{userId})
+        (#{songListName},#{createTime},#{userId},#{label},#{songListIntro},#{songListImg})
     </insert>
 
     <update id="updateOne" parameterType="com.musicweb.music.entity.SongListTb">
