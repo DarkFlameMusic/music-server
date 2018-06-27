@@ -6,7 +6,7 @@ import java.security.MessageDigest;
 
 public class MD5Util {
 
-    private final String SALT="ehji12y3*&*(&(#dsad**-/*";
+    private static final String SALT="ehji12y3*&*(&(#dsad**-/*";
     public static String encode(String password){
         password = password + "zhiyouwobushigay";
         MessageDigest md5 = null;
@@ -34,12 +34,18 @@ public class MD5Util {
         return hexValue.toString();
     }
 
-    //TODO 未测试
+
     public static String getMD5(String content){
+        content = content+SALT;
         String md5 = DigestUtils.md5DigestAsHex(content.getBytes());
         return md5;
     }
 
+    /**
+     *getMD5: 24fe6c745011dde357abee22a0d47fa7
+     encode: 243d851c03bc98eb3335a195c033d7ee
+     * @param args
+     */
 //    public static void main(String[] args){
 //        String content = "123456";
 //        System.out.println(getMD5(content));

@@ -1,7 +1,9 @@
 package com.musicweb.music.aspect;
 
 
+import com.musicweb.music.entity.UserTb;
 import com.musicweb.music.enums.ExceptionEnum;
+import com.musicweb.music.enums.UserJurisdictionEnum;
 import com.musicweb.music.exception.MusicException;
 import com.musicweb.music.service.impl.UserTbServiceImpl;
 import com.musicweb.music.utils.CookieUtil;
@@ -34,12 +36,27 @@ public class LoginAspect {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
 
+       checkCookieAndToken(request);
+    }
+    @Before("execution(public * com.musicweb.music.controller.AdminFunctionController.*(..))")
+    public void adminCheck(){
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        Claims claims = checkCookieAndToken(request);
+        UserTb userTb = userTbService.findById(Integer.valueOf(claims.getId()));
+        Integer jurisdiction = userTb.getJurisdiction();
+        if (jurisdiction != UserJurisdictionEnum.ADMIN.getCode()){
+            throw new MusicException(ExceptionEnum.JURISDICTION_ERROR);
+        }
+    }
+
+    private Claims checkCookieAndToken(HttpServletRequest request){
         //查询cookie
         Cookie cookie = CookieUtil.get(request,"Token");
         if (cookie == null){
-            throw new MusicException(ExceptionEnum.DATA_NULL);
+            throw new MusicException(ExceptionEnum.COOKIE_NULL);
         }
-        Claims claims;
+        Claims claims = null;
         try {
             claims = TokenUtil.parseToken(cookie.getValue());
         }catch (Exception e){
@@ -49,6 +66,7 @@ public class LoginAspect {
         if (Integer.valueOf(claims.getId()) != userTbService.findByUsername(claims.getSubject()).getUserId()){
             throw new MusicException(ExceptionEnum.TOKEN_ERROR);
         }
+        return claims;
     }
 
 }

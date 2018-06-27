@@ -48,7 +48,7 @@ public class LoginAndRegisterController {
                           HttpServletResponse response) throws Exception {
         //在数据库中对比
         UserTb userTb = userTbService.findByUsername(username);
-        VerifyUserUtil.verifyUser(userTb, MD5Util.encode(password));
+        VerifyUserUtil.verifyUser(userTb, MD5Util.getMD5(password));
         //设置用户标识码
         String token = TokenUtil.createToken(userTb.getUserId(),username,10000*60*60*10);
         UserTbVO userTbVO = new UserTbVO();
@@ -90,7 +90,7 @@ public class LoginAndRegisterController {
 
         //用户输入属性
         userTb.setUsername(userTb.getUsername());
-        userTb.setPassword(MD5Util.encode(userTb.getPassword()));
+        userTb.setPassword(MD5Util.getMD5(userTb.getPassword()));
         userTb.setUserNickname(userTb.getUserNickname());
         //默认属性
         userTb.setMail(userTb.getUsername());
@@ -135,7 +135,7 @@ public class LoginAndRegisterController {
         }
         //用户输入属性
         userTb.setUsername(userTb.getUsername());
-        userTb.setPassword(MD5Util.encode(userTb.getPassword()));
+        userTb.setPassword(MD5Util.getMD5(userTb.getPassword()));
         userTb.setUserNickname(userTb.getUserNickname());
         //默认属性
         userTb.setMail(userTb.getUsername());
@@ -153,7 +153,7 @@ public class LoginAndRegisterController {
                               @RequestParam("newpassword") String newPassword){
         UserTb userTb = userTbService.findByUsername(username);
         VerifyUserUtil.verifyUser(userTb,password);
-        userTb.setPassword(MD5Util.encode(newPassword));
+        userTb.setPassword(MD5Util.getMD5(newPassword));
         userTbService.compilePersonalData(userTb);
 
         return ResultVOUtil.success(userTb);
@@ -186,7 +186,7 @@ public class LoginAndRegisterController {
 
         VerifyUserUtil.verifyCaptcha(userTb);
 
-        userTb.setPassword(MD5Util.encode(newPassword));
+        userTb.setPassword(MD5Util.getMD5(newPassword));
         userTb.setCaptcha(null);
         userTbService.compilePersonalData(userTb);
 

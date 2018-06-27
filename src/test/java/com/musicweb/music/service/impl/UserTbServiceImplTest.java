@@ -57,7 +57,7 @@ public class UserTbServiceImplTest {
     public void insertForSignIn() throws Exception {
         UserTb userTb = new UserTb();
         userTb.setUsername("8584966@qq.com");
-        userTb.setPassword(MD5Util.encode("45646"));
+        userTb.setPassword(MD5Util.getMD5("45646"));
         userTb.setUserNickname("dsad");
         //默认属性
         userTb.setMail(userTb.getUsername());

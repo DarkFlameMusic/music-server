@@ -17,7 +17,9 @@ public enum ExceptionEnum {
     LIST_OVERFLOW(5555,"超出List的大小"),
     DATA_EXIST(666,"数据已存在"),
     DELETE_ERROR(4654,"删除失败"),
-    TOKEN_EXPIRE(1234,"Token过期或Token错误")
+    TOKEN_EXPIRE(1234,"Token过期或Token错误"),
+    JURISDICTION_ERROR(85263,"无该权限"),
+    COOKIE_NULL(321465,"cookie为空")
     ;
 
 
