@@ -29,9 +29,29 @@ public class SongTbVO {
     @JsonProperty("url")
     private String songUrl;
 
+    private Integer albumId;
+
+    private String language;
+
     private String[] labels;
 
     private String image;
+
+    public Integer getAlbumId() {
+        return albumId;
+    }
+
+    public void setAlbumId(Integer albumId) {
+        this.albumId = albumId;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 
     public String getImage() {
         return image;

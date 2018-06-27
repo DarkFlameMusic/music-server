@@ -19,7 +19,8 @@ public enum ExceptionEnum {
     DELETE_ERROR(4654,"删除失败"),
     TOKEN_EXPIRE(50014,"Token过期或Token错误"),
     JURISDICTION_ERROR(85263,"无该权限"),
-    COOKIE_NULL(321465,"cookie为空")
+    COOKIE_NULL(321465,"cookie为空"),
+    UPDATE_ERROR(60000,"更新失败")
     ;
 
 

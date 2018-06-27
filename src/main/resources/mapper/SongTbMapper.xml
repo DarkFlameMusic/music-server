@@ -80,12 +80,11 @@
         UPDATE song_tb
         <set>
             song_name=#{songName},album_id=#{albumId},
-            mv_id=#{mvId},song_time=#{songTime},sing_style=#{singStyle},
-            song_tb.language=#{language},comment_number={commentNumber},
-            play_number=#{playNumber},create_time=#{createTime},lyric=#{lyric},
-            song_url=#{song_url}
+            song_time=#{songTime},sing_style=#{singStyle},
+            song_tb.language=#{language},lyric=#{lyric},
+            song_url=#{songUrl}
         </set>
-        WHERE singer_id=#{singerId}
+        WHERE song_id=#{songId}
     </update>
 
 </mapper>

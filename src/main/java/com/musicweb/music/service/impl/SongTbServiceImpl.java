@@ -24,6 +24,10 @@ public class SongTbServiceImpl implements SongTbService {
     @Autowired
     private AlbumTbServiceImpl albumTbService;
 
+    public Integer insertOne(SongTb songTb){
+        return mapper.insertOne(songTb);
+    }
+
     @Override
     public List<SongTb> findSortPlayNumber() {
         return mapper.findSortPlayNumber();

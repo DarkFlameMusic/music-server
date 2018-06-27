@@ -78,6 +78,10 @@ public class AlbumTbServiceImpl implements AlbumTbService{
     }
 
     public Integer deleteOne(Integer albumId){
+        List<SongTb> songTbs = songTbService.findByAlbumId(albumId);
+        for (SongTb songTb : songTbs) {
+            songTbService.deleteOne(songTb.getSongId());
+        }
         return mapper.deleteById(albumId);
     }
 

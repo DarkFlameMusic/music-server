@@ -42,24 +42,6 @@ public class SingerFunctionController {
 
     //发布歌曲1.上传歌曲2.添加入数据库
     //TODO
-    @PostMapping("/upload")
-    public ResultVO uploadSong(HttpServletRequest request,
-                               @RequestParam("songName") String songName,
-                               @RequestParam("songTime") String songTime,
-                               @RequestParam("language") String language,
-                               @RequestParam("albumId") Integer albumId,
-                               @RequestParam("singStyle") String singStyle,
-                               @RequestParam("mvId") Integer mvId,
-                               @RequestParam("songFile") MultipartFile songFile,
-                               @RequestParam("songLyric") MultipartFile songLyric) throws IOException {
-
-        Claims claims = TokenUtil.parseToken(CookieUtil.get(request,"Token").getValue());
-        Integer userId = Integer.valueOf(claims.getId());
-        FileInputStream fileInputStream = (FileInputStream) songFile.getInputStream();
-        String songUrl = UploadUtil.commonUpload(fileInputStream,songFile.getOriginalFilename());
-
-        return ResultVOUtil.success();
-    }
 
     //TODO 未测试 查询个人发布的歌曲
     @GetMapping("/get/song")

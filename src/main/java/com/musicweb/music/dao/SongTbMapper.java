@@ -8,11 +8,11 @@ import java.util.List;
 public interface SongTbMapper {
 
     @Insert("insert into song_tb(singer_id,song_name,album_id," +
-            "song_time,sing_style,language,lyric) " +
+            "song_time,sing_style,language,lyric,song_url) " +
             "values(#{singerId,jdbcType=INTEGER},#{songName,jdbcType=VARCHAR}," +
             "#{albumId,jdbcType=INTEGER},#{songTime,jdbcType=INTEGER}," +
             "#{singStyle,jdbcType=VARCHAR},#{language,jdbcType=VARCHAR}," +
-            "#{lyric,jdbcType=VARCHAR})")
+            "#{lyric,jdbcType=VARCHAR},#{songUrl,jdbcType=VARCHAR})")
     int insertOne(SongTb songTb);
 
 
