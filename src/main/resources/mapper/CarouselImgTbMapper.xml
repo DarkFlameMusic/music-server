@@ -44,6 +44,7 @@
         <set>
             carousel_img=#{carouselImg},carousel_url=#{carouselUrl},create_time=#{createTime}
         </set>
+        WHERE carousel_img_id=#{carouselImgId}
     </update>
 
 </mapper>
