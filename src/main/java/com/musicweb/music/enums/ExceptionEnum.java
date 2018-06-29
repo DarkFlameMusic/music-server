@@ -20,7 +20,8 @@ public enum ExceptionEnum {
     TOKEN_EXPIRE(50014,"Token过期或Token错误"),
     JURISDICTION_ERROR(85263,"无该权限"),
     COOKIE_NULL(321465,"cookie为空"),
-    UPDATE_ERROR(60000,"更新失败")
+    UPDATE_ERROR(60000,"更新失败"),
+    INSERT_ERROR(60001,"添加失败")
     ;
 
 

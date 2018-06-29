@@ -3,8 +3,12 @@ package com.musicweb.music.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.musicweb.music.dao.SingerTbMapper;
+import com.musicweb.music.entity.AlbumTb;
 import com.musicweb.music.entity.SingerTb;
+import com.musicweb.music.service.AlbumTbService;
 import com.musicweb.music.service.SingerTbService;
+import com.musicweb.music.service.SongTbService;
+import okhttp3.internal.Internal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +20,9 @@ public class SingerTbServiceImpl implements SingerTbService{
 
     @Autowired
     private SingerTbMapper mapper;
+
+    @Autowired
+    private AlbumTbServiceImpl albumTbService;
 
     @Override
     public SingerTb findBySingerId(Integer singerId) {
@@ -58,5 +65,22 @@ public class SingerTbServiceImpl implements SingerTbService{
     public PageInfo<SingerTb> findAllPage(Integer pageNumber, Integer pageSize) {
         PageHelper.startPage(pageNumber,pageSize);
         return new PageInfo<>(mapper.findAll());
+    }
+
+    public Integer deleteById(Integer id){
+        List<AlbumTb> albumTbs = albumTbService.findBySingerId(id);
+        for (AlbumTb albumTb : albumTbs) {
+            albumTbService.deleteOne(albumTb.getAlbumId());
+        }
+        return mapper.deleteById(id);
+    }
+
+    public SingerTb updateSinger(SingerTb singerTb){
+        mapper.updateOne(singerTb);
+        return findBySingerId(singerTb.getSingerId());
+    }
+
+    public Integer createSinger(SingerTb singerTb){
+        return mapper.insertOne(singerTb);
     }
 }

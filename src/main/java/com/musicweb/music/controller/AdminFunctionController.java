@@ -101,17 +101,6 @@ public class AdminFunctionController extends BasePageController {
         return userTbVOList;
     }
 
-    //获取所有歌手
-    @GetMapping("/get/all/singer")
-    public ResultVO adminGetAllSinger(@RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber,
-                                      @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize) {
-
-        PageInfo<SingerTb> singerTbPageInfo = singerTbService.findAllPage(pageNumber, pageSize);
-        List<SingerTbVO> singerTbVOList = new ArrayList<>();
-
-        return ResultVOUtil.success();
-    }
-
     //创建用户
     @ApiOperation(value = "创建用户")
     @PostMapping("/insert/user")

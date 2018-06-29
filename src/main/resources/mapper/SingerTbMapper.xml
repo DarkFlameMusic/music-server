@@ -16,6 +16,14 @@
         <id column="popularity" property="popularity" jdbcType="INTEGER" />
     </resultMap>
 
+    <insert id="insertOne" useGeneratedKeys="true" keyProperty="singerId"
+            keyColumn="singer_id" parameterType="com.musicweb.music.entity.SingerTb">
+        INSERT INTO
+        singer_tb(user_id,singer_name,singer_img,singer_one_intro,singer_intro,gender,initial)
+        VALUES
+        (#{userId},#{singerName},#{singerImg},#{singerOneIntro},#{singerIntro},#{gender},#{initial})
+    </insert>
+
     <select id="findAll" resultMap="BaseResultMap">
         SELECT *
         FROM singer_tb
@@ -66,4 +74,5 @@
         FROM singer_tb
         WHERE user_id=#{userId}
     </select>
+
 </mapper>

@@ -23,7 +23,21 @@ public class SingerTbVO {
     @JsonProperty("albumCount")
     private String albumNumber;
 
-//    private String mvNumber;
+    @JsonProperty("popularity")
+    private Integer popularity;
+
+    @JsonProperty("singerIntro")
+    private String singerIntro;
+
+    public String getSingerIntro() {
+        return singerIntro;
+    }
+
+    public void setSingerIntro(String singerIntro) {
+        this.singerIntro = singerIntro;
+    }
+
+    //    private String mvNumber;
 
     public String getSingerName() {
         return singerName;
@@ -73,7 +87,15 @@ public class SingerTbVO {
         this.albumNumber = albumNumber;
     }
 
-//    public String getMvNumber() {
+    public Integer getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(Integer popularity) {
+        this.popularity = popularity;
+    }
+
+    //    public String getMvNumber() {
 //        return mvNumber;
 //    }
 //

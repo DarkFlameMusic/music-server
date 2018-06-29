@@ -3,9 +3,11 @@ package com.musicweb.music.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.musicweb.music.dao.SongListTbMapper;
+import com.musicweb.music.entity.SongListSongTb;
 import com.musicweb.music.entity.SongListTb;
 import com.musicweb.music.enums.ExceptionEnum;
 import com.musicweb.music.exception.MusicException;
+import com.musicweb.music.service.SongListSongTbService;
 import com.musicweb.music.service.SongListTbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,9 @@ public class SongListTbServiceImpl implements SongListTbService{
 
     @Autowired
     private SongListTbMapper mapper;
+
+    @Autowired
+    private SongListSongTbService songListSongTbService;
 
     @Override
     public List<SongListTb> findAllSortCommentNumber() {
@@ -65,6 +70,10 @@ public class SongListTbServiceImpl implements SongListTbService{
 
     @Override
     public Integer deleteOne(Integer songListId) {
+        List<SongListSongTb> songListSongTbs = songListSongTbService.findBySongListId(songListId);
+        for (SongListSongTb songListSongTb : songListSongTbs) {
+            songListSongTbService.deleteBySongListSongId(songListSongTb.getSongListSongId());
+        }
         return mapper.deleteBySongListId(songListId);
     }
 

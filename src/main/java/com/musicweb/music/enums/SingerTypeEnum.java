@@ -18,7 +18,6 @@ public enum SingerTypeEnum {
     OTHER_MAN(13,"其他男歌手"),
     OTHER_WOMAN(14,"其他女歌手"),
     OTHER_GROUP(15,"其他组合或乐队")
-
     ;
 
 

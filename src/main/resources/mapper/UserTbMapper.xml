@@ -69,7 +69,7 @@
             jurisdiction=#{jurisdiction},birth_date=#{birthDate},
             area=#{area},person_intro=#{personIntro},
             attention_number=#{attentionNumber},fan_number=#{fanNumber},
-            captcha=#{captcha},gender=#{gender}
+            captcha=#{captcha},gender=#{gender},update_time=#{updateTime}
         </set>
         WHERE user_id=#{userId}
     </update>

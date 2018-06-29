@@ -115,4 +115,10 @@ public class UserTbServiceImpl implements UserTbService{
         PageHelper.startPage(pageNumber,pageSize);
         return new PageInfo<>(mapper.searchByUserNickname(content));
     }
+
+    public UserTb updateUserTb(UserTb userTb){
+        userTb.setUpdateTime(new Date());
+        mapper.updateByUserId(userTb);
+        return findById(userTb.getUserId());
+    }
 }

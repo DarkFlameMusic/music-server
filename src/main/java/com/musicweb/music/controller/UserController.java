@@ -93,4 +93,17 @@ public class UserController {
         return ResultVOUtil.success(userTbVO);
     }
 
+    //更改用户权限
+    @ApiOperation(value = "更改用户权限")
+    @PostMapping(value = "/user/updateStatus")
+    public ResultVO updateUsesrStatus(@RequestParam(name = "userId") Integer userId,
+                                      @RequestParam(name = "status") Integer status) {
+
+        UserTb userTb = userTbService.findById(userId);
+        userTb.setJurisdiction(status);
+        UserTb result = userTbService.updateUserTb(userTb);
+
+        return ResultVOUtil.success(result);
+    }
+
 }

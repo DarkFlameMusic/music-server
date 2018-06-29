@@ -7,14 +7,12 @@ import java.util.List;
 
 public interface SingerTbMapper {
 
-    @Insert("insert into singer_tb(singer_name,singer_img,user_id," +
-            "singer_one_intro,singer_intro) " +
-            "values(#{singerName,jdbcType=VARCHAR}," +
-            "#{userId,jdbcType=INTEGER}#{singerImg,jdbcType=VARCHAR}," +
-            "#{singerOneIntro,jdbcType=VARCHAR},#{singerIntro,jdbcType=VARCHAR})")
+//    @Insert("insert into singer_tb(singer_name,singer_img,user_id," +
+//            "singer_one_intro,singer_intro) " +
+//            "values(#{singerName,jdbcType=VARCHAR}," +
+//            "#{userId,jdbcType=INTEGER}#{singerImg,jdbcType=VARCHAR}," +
+//            "#{singerOneIntro,jdbcType=VARCHAR},#{singerIntro,jdbcType=VARCHAR})")
     int insertOne(SingerTb singerTb);
-
-
 
     SingerTb findById(Integer id);
 
