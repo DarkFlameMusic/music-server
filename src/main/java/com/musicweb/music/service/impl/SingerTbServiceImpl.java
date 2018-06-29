@@ -8,6 +8,8 @@ import com.musicweb.music.entity.SingerTb;
 import com.musicweb.music.service.AlbumTbService;
 import com.musicweb.music.service.SingerTbService;
 import com.musicweb.music.service.SongTbService;
+import com.musicweb.music.utils.InitialUtil;
+import io.swagger.annotations.ApiOperation;
 import okhttp3.internal.Internal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,9 @@ public class SingerTbServiceImpl implements SingerTbService{
 
     @Autowired
     private SingerTbMapper mapper;
+
+    @Autowired
+    private InitialUtil initialUtil;
 
     @Autowired
     private AlbumTbServiceImpl albumTbService;
@@ -76,6 +81,7 @@ public class SingerTbServiceImpl implements SingerTbService{
     }
 
     public SingerTb updateSinger(SingerTb singerTb){
+        singerTb.setInitial(String.valueOf(initialUtil.getStringPinyin(singerTb.getSingerName()).toUpperCase().charAt(0)));
         mapper.updateOne(singerTb);
         return findBySingerId(singerTb.getSingerId());
     }
