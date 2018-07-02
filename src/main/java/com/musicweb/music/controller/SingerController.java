@@ -66,7 +66,7 @@ public class SingerController {
         List<SingerTb> singerTbList = singerTbService.findAllInSinger();
         List<SingerTbVO> singerTbVOList = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            if (i < singerTbList.size()) {
+            if (i >= singerTbList.size()) {
                 break;
             }
             SingerTbVO singerTbVO = new SingerTbVO();
@@ -170,16 +170,11 @@ public class SingerController {
 
     //分类歌手
     @ApiOperation(value = "分类歌手", notes = "根据歌手类型和首字母查询")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "singerType", value = "歌手类型", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "initial", value = "首字母", dataType = "String")
-    })
     @GetMapping(value = "/singer/cat")
-    public ResultVO singerCat(@RequestParam(value = "singerType") String singerTypeS,
+    public ResultVO singerCat(@RequestParam(value = "singerType") Integer singerType,
                               @RequestParam(value = "initial", defaultValue = "hot") String initial) {
-        Integer singerType = Integer.valueOf(singerTypeS);
         List<SingerTbVO> singerTbVOList = new ArrayList<>();
-        List<SingerTb> singerTbList = null;
+        List<SingerTb> singerTbList = new ArrayList<>();
         if (initial.equals("hot")) {
             singerTbList = singerTbService.findByType(singerType);
         } else {
@@ -205,12 +200,12 @@ public class SingerController {
 
     //歌手页
     @ApiOperation(value = "歌手页", notes = "根据内容查询artist、album、mv、intro")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "content", value = "不同内容", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "singerId", value = "歌手id", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "pageNumber", value = "页数", dataType = "String"),
-            @ApiImplicitParam(name = "pageSize", value = "每页最大内容", dataType = "String")
-    })
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "content", value = "不同内容", required = true, dataType = "String"),
+//            @ApiImplicitParam(name = "singerId", value = "歌手id", required = true, dataType = "String"),
+//            @ApiImplicitParam(name = "pageNumber", value = "页数", dataType = "String"),
+//            @ApiImplicitParam(name = "pageSize", value = "每页最大内容", dataType = "String")
+//    })
     @GetMapping(value = "/singerpage")
     public ResultVO singerPage(@RequestParam(value = "content") String content,
                                @RequestParam(value = "singerId") Integer singerId,

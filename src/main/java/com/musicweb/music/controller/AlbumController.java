@@ -97,8 +97,7 @@ public class AlbumController extends BasePageController {
     }
 
     //全部新碟
-    @ApiOperation(value = "全部新碟页面", notes = "根据页数获取相应的内容")
-    @ApiImplicitParam(name = "pagenumber", value = "页数", required = true, dataType = "Integer")
+    @ApiOperation(value = "全部新碟页面 一个月前到现在的新专辑", notes = "根据页数获取相应的内容 一个月前到现在的新专辑")
     @GetMapping(value = "/discover/all/album")
     public ResultVO allNewAlbum(@RequestParam(value = "pagenumber") Integer pageNumber) {
         Calendar calendar = Calendar.getInstance();

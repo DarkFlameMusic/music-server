@@ -10,6 +10,8 @@ import com.musicweb.music.entity.collecttable.CollectSongListTb;
 import com.musicweb.music.entity.favortable.FavorSingerTb;
 import com.musicweb.music.entity.favortable.FavorSongTb;
 import com.musicweb.music.enums.CommentTypeEnum;
+import com.musicweb.music.enums.ExceptionEnum;
+import com.musicweb.music.exception.MusicException;
 import com.musicweb.music.service.impl.*;
 import com.musicweb.music.utils.CookieUtil;
 import com.musicweb.music.utils.DateUtil;
@@ -67,8 +69,14 @@ public class MyMusicController extends BasePageController {
     @ApiOperation(value = "关注的歌手",notes = "关注的歌手详情")
     @GetMapping(value = "/artist")
     public ResultVO artist(HttpServletRequest request) {
-        Claims claims = TokenUtil.parseToken(CookieUtil.get(request, "Token").getValue());
-        Integer userId = Integer.valueOf(claims.getId());
+        Integer userId = null;
+        try {
+            Claims claims = TokenUtil.parseToken(CookieUtil.get(request, "Token").getValue());
+            userId = Integer.valueOf(claims.getId());
+        }catch (Exception e){
+            throw new MusicException(ExceptionEnum.LOGIN_NULL);
+        }
+
 
         List<FavorSingerTb> favorSingerTbList = favorSingerTbService.findByUserId(userId);
         List<SingerTbVO> singerTbVOList = new ArrayList<>();

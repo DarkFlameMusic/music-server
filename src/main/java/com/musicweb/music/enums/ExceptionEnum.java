@@ -14,14 +14,15 @@ public enum ExceptionEnum {
     SONG_NULL(15,"歌单中歌曲不存在"),
     ATTENTION_USER_NULL(16,"关注的用户不存在"),
     UNKNOWN_TYPE(1111,"未知的类型"),
-    LIST_OVERFLOW(5555,"超出List的大小"),
+    LIST_OVERFLOW(5555,"超出List的大小，数据库中数据大于8"),
     DATA_EXIST(666,"数据已存在"),
     DELETE_ERROR(4654,"删除失败"),
     TOKEN_EXPIRE(50014,"Token过期或Token错误"),
     JURISDICTION_ERROR(85263,"无该权限"),
     COOKIE_NULL(321465,"cookie为空"),
     UPDATE_ERROR(60000,"更新失败"),
-    INSERT_ERROR(60001,"添加失败")
+    INSERT_ERROR(60001,"添加失败"),
+    LOGIN_NULL(45666,"未登录")
     ;
 
 
