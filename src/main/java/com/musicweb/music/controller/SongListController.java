@@ -73,7 +73,7 @@ public class SongListController extends BasePageController{
     //热门歌单
     @ApiOperation(value = "热门歌单")
     @GetMapping(value = "/hotRecommond")
-    public ResultVO hotRecommond(@RequestParam(value = "n") Integer n){
+    public ResultVO hotRecommond(){
         List<SongListTb> songListTbList = songListTbService.findAllSortPlayNumber();
         List<SongListTbVO> songListTbVOList = new ArrayList<>();
         for(int i = 0;i < MAXHOTRECOMMOND;i++){
@@ -91,7 +91,7 @@ public class SongListController extends BasePageController{
     //个性化推荐歌单
     @ApiOperation(value = "个性化推荐歌单")
     @GetMapping(value = "/personRecommond")
-    public ResultVO personRecommond(@RequestParam(value = "n") Integer n){
+    public ResultVO personRecommond(){
         List<SongListTb> songListTbList = songListTbService.findAllSortPlayNumber();
         List<SongListTbVO> songListTbVOList = new ArrayList<>();
         for(int i = 0;i < MAXPERSONRECOMMOND;i++){
