@@ -49,6 +49,7 @@ public class CollectSongListController {
             songListTbVO.setUserNickname(userTb.getUserNickname());
             songListTbVO.setLabel(songListTb.getLabel());
             songListTbVO.setSongListImg(songListTb.getSongListImg());
+            songListTbVO.setPlayNumber(songListTb.getPlayNumber());
             songListTbVOList.add(songListTbVO);
         }
         return ResultVOUtil.success(songListTbVOList);
