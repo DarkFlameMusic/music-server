@@ -74,24 +74,6 @@ public class UserController {
         return ResultVOUtil.success(songListTbCreateVOList);
     }
 
-    //通过token获取用户信息
-    @GetMapping("/get/user/info")
-    public ResultVO getUserInfo(HttpServletRequest request){
-        Claims claims = TokenUtil.parseToken(CookieUtil.get(request,"Token").getValue());
-
-        Integer userId = Integer.valueOf(claims.getId());
-
-        UserTb userTb = userTbService.findById(userId);
-
-        UserTbVO userTbVO = new UserTbVO();
-
-        BeanUtils.copyProperties(userTb,userTbVO);
-        String[] strings = {UserJurisdictionEnum.getSting(userTb.getJurisdiction())};
-
-        userTbVO.setRoles(strings);
-
-        return ResultVOUtil.success(userTbVO);
-    }
 
     //更改用户权限
     @ApiOperation(value = "更改用户权限")

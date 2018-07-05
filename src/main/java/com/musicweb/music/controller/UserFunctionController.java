@@ -10,6 +10,7 @@ import com.musicweb.music.entity.commenttable.SongCommentTb;
 import com.musicweb.music.entity.commenttable.SongListCommentTb;
 import com.musicweb.music.enums.CommentTypeEnum;
 import com.musicweb.music.enums.ExceptionEnum;
+import com.musicweb.music.enums.UserJurisdictionEnum;
 import com.musicweb.music.exception.MusicException;
 import com.musicweb.music.service.impl.*;
 import com.musicweb.music.utils.*;
@@ -76,6 +77,26 @@ public class UserFunctionController {
     private UserListenTbServiceImpl userListenTbService;
 
     private final static Logger logger = LoggerFactory.getLogger(UserFunctionController.class);
+
+
+    //通过token获取用户信息
+    @GetMapping("/get/user/info")
+    public ResultVO getUserInfo(HttpServletRequest request){
+        Claims claims = TokenUtil.parseToken(CookieUtil.get(request,"Token").getValue());
+
+        Integer userId = Integer.valueOf(claims.getId());
+
+        UserTb userTb = userTbService.findById(userId);
+
+        UserTbVO userTbVO = new UserTbVO();
+
+        BeanUtils.copyProperties(userTb,userTbVO);
+        String[] strings = {UserJurisdictionEnum.getSting(userTb.getJurisdiction())};
+
+        userTbVO.setRoles(strings);
+
+        return ResultVOUtil.success(userTbVO);
+    }
 
     //编辑个人信息
     @ApiOperation(value = "编辑个人信息")
