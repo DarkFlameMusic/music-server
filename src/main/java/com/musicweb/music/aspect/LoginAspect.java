@@ -63,7 +63,7 @@ public class LoginAspect {
             throw new MusicException(ExceptionEnum.TOKEN_EXPIRE);
         }
 
-        if (Integer.valueOf(claims.getId()) != userTbService.findByUsername(claims.getSubject()).getUserId()){
+        if (!Integer.valueOf(claims.getId()).equals(userTbService.findByUsername(claims.getSubject()).getUserId())){
             throw new MusicException(ExceptionEnum.TOKEN_ERROR);
         }
         return claims;

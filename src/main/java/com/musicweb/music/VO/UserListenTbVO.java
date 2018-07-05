@@ -14,6 +14,16 @@ public class UserListenTbVO {
     @JsonProperty("playCount")
     private Integer playNumber;
 
+    private String songUrl;
+
+    public String getSongUrl() {
+        return songUrl;
+    }
+
+    public void setSongUrl(String songUrl) {
+        this.songUrl = songUrl;
+    }
+
     public Integer getUserId() {
         return userId;
     }

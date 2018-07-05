@@ -92,41 +92,41 @@ public class SingerController {
     }
 
 
-    //TODO 热门歌手 未测试 待修改
-    @ApiOperation(value = "热门歌手")
-    @GetMapping(value = "/hotSinger")
-    public ResultVO hotSinger() {
-        Map<Integer, Integer> map = new HashMap<>();
-        List<FavorSingerTb> favorSingerTbList = favorSingerTbService.findAllBySingerId();
-        int n = 0;
-        for (int i = 0; i < favorSingerTbList.size(); i = n) {
-            for (int j = 0; j < favorSingerTbList.size(); j++) {
-                if (favorSingerTbList.get(i).getSingerId() == favorSingerTbList.get(j).getSingerId()) {
-                    n++;
-                }
-            }
-            map.put(favorSingerTbList.get(i).getSingerId(), n - i);
-        }
-        List<Map.Entry<Integer, Integer>> list = new ArrayList<Map.Entry<Integer, Integer>>(map.entrySet());
-//        Collections.sort(list, (Comparator<Map.Entry<Integer, Integer>>) (o1, o2) -> { return o2.getValue().compareTo(o1.getValue());});
-        list.sort((Comparator<Map.Entry<Integer, Integer>>) (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
-
-        //修改过的内容
-        List<SingerTb> singerTbList = singerTbService.findAll();
-        List<SingerTbVO> singerTbVOList = new ArrayList<>();
-        for (SingerTb singerTb : singerTbList) {
-            SingerTbVO singerTbVO = new SingerTbVO();
-            BeanUtils.copyProperties(singerTb, singerTbVO);
-            singerTbVOList.add(singerTbVO);
-        }
-
-        return ResultVOUtil.success(singerTbVOList);
-    }
+//    //TODO 热门歌手 未测试 待修改
+//    @ApiOperation(value = "热门歌手")
+//    @GetMapping(value = "/hotSinger")
+//    public ResultVO hotSinger() {
+//        Map<Integer, Integer> map = new HashMap<>();
+//        List<FavorSingerTb> favorSingerTbList = favorSingerTbService.findAllBySingerId();
+//        int n = 0;
+//        for (int i = 0; i < favorSingerTbList.size(); i = n) {
+//            for (int j = 0; j < favorSingerTbList.size(); j++) {
+//                if (favorSingerTbList.get(i).getSingerId() == favorSingerTbList.get(j).getSingerId()) {
+//                    n++;
+//                }
+//            }
+//            map.put(favorSingerTbList.get(i).getSingerId(), n - i);
+//        }
+//        List<Map.Entry<Integer, Integer>> list = new ArrayList<Map.Entry<Integer, Integer>>(map.entrySet());
+////        Collections.sort(list, (Comparator<Map.Entry<Integer, Integer>>) (o1, o2) -> { return o2.getValue().compareTo(o1.getValue());});
+//        list.sort((Comparator<Map.Entry<Integer, Integer>>) (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
+//
+//        //修改过的内容
+//        List<SingerTb> singerTbList = singerTbService.findAll();
+//        List<SingerTbVO> singerTbVOList = new ArrayList<>();
+//        for (SingerTb singerTb : singerTbList) {
+//            SingerTbVO singerTbVO = new SingerTbVO();
+//            BeanUtils.copyProperties(singerTb, singerTbVO);
+//            singerTbVOList.add(singerTbVO);
+//        }
+//
+//        return ResultVOUtil.success(singerTbVOList);
+//    }
 
 
     //推荐歌手
-    @ApiOperation(value = "推荐歌手和热门歌手")
-    @GetMapping(value = "/artist")
+    @ApiOperation(value = "推荐歌手")
+    @GetMapping(value = "/singer/singerList")
     public ResultVO artist() {
         //入驻歌手
         List<SingerTb> singerTbList = singerTbService.findAllInSinger();
@@ -138,6 +138,15 @@ public class SingerController {
         }
 
         //热门歌手
+
+        List<ResultVO> list = new ArrayList<>();
+
+        return ResultVOUtil.success(singerTbVOList);
+    }
+    //热门歌手
+    @ApiOperation(value = "热门歌手")
+    @GetMapping(value = "/singer/hotSinger")
+    public ResultVO getHotSinger(){
         List<SingerTb> singerTbListHot = singerTbService.findAll();
         List<SingerTbVO> singerTbVOListHot = new ArrayList<>();
         for (SingerTb singerTb : singerTbListHot) {
@@ -145,14 +154,9 @@ public class SingerController {
             BeanUtils.copyProperties(singerTb, singerTbVO);
             singerTbVOListHot.add(singerTbVO);
         }
-        List<List<SingerTbVO>> lists = new ArrayList<>();
-        List<ResultVO> list = new ArrayList<>();
-
-        lists.add(singerTbVOList);
-        lists.add(singerTbVOListHot);
-        return ResultVOUtil.success(lists);
+        return  ResultVOUtil.success(singerTbVOListHot);
     }
-    //热门歌手
+
 
     //所有入驻歌手
     @ApiOperation(value = "所有入驻歌手")

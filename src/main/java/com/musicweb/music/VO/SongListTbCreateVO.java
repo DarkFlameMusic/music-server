@@ -16,6 +16,8 @@ public class SongListTbCreateVO {
     @JsonProperty("playCount")
     private Integer playNumber;
 
+    private String userNickname;
+
     public String getSongListName() {
         return songListName;
     }
