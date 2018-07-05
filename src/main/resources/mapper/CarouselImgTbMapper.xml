@@ -26,7 +26,7 @@
 
     <delete id="deleteById">
         DELETE FROM carousel_img_tb
-        WHERE carousel_id=#{carouselId}
+        WHERE carousel_img_id=#{carouselId}
     </delete>
 
     <select id="searchByLinkUrl" resultMap="BaseResultMap" parameterType="java.lang.String">

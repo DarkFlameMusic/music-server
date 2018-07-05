@@ -37,6 +37,35 @@ public class SongTbVO {
 
     private String image;
 
+    private String singerName;
+    private Integer singerId;
+
+    private String albumName;
+
+    public String getAlbumName() {
+        return albumName;
+    }
+
+    public void setAlbumName(String albumName) {
+        this.albumName = albumName;
+    }
+
+    public String getSingerName() {
+        return singerName;
+    }
+
+    public void setSingerName(String singerName) {
+        this.singerName = singerName;
+    }
+
+    public Integer getSingerId() {
+        return singerId;
+    }
+
+    public void setSingerId(Integer singerId) {
+        this.singerId = singerId;
+    }
+
     public Integer getAlbumId() {
         return albumId;
     }

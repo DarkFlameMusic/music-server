@@ -110,17 +110,23 @@ public class UserFunctionController {
                                 HttpServletRequest request) throws ParseException, IOException {
         Claims claims = TokenUtil.parseToken(CookieUtil.get(request, "Token").getValue());
         Integer userId = Integer.valueOf(claims.getId());
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = format.parse(birthDate);
-        FileInputStream fileInputStream = (FileInputStream) multipartFile.getInputStream();
+
         UserTb userTb = userTbService.findById(userId);
         VerifyUserUtil.verifyToken(userTb);
         userTb.setUserNickname(userNickname);
         userTb.setPersonIntro(personIntro);
         userTb.setGender(gender);
-        userTb.setBirthDate(date);
+
+        if(birthDate!=null){
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = format.parse(birthDate);
+            userTb.setBirthDate(date);
+        }
         userTb.setArea(area);
-        userTb.setHeadImg(UploadUtil.commonUpload(fileInputStream,multipartFile.getOriginalFilename()));
+        if(multipartFile!=null){
+            FileInputStream fileInputStream = (FileInputStream) multipartFile.getInputStream();
+            userTb.setHeadImg(UploadUtil.commonUpload(fileInputStream,multipartFile.getOriginalFilename()));
+        }
         userTbService.compilePersonalData(userTb);
         UserTbVO userTbVO = new UserTbVO();
         BeanUtils.copyProperties(userTb, userTbVO);

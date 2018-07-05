@@ -177,9 +177,9 @@ public class BasePageController<T> {
         if (typeNumber == CommentTypeEnum.SONG_COMMENT.getCode()){
             List<SongListSongTb> songListSongTbList = songListSongTbService.findBySongId(id);
             List<SongListTbVO> songListTbVOList = new ArrayList<>();
-            for (int i = 0;i<SONGINCLUDESIZE;i++){
+            for (SongListSongTb songListSongTb: songListSongTbList){
                 SongListTbVO songListTbVO = new SongListTbVO();
-                SongListTb songListTb = songListTbService.findBySongListId(songListSongTbList.get(i).getSongListId());
+                SongListTb songListTb = songListTbService.findBySongListId(songListSongTb.getSongListId());
                 BeanUtils.copyProperties(songListTb,songListTbVO);
                 songListTbVO.setUserNickname(userTbService.findById(songListTb.getUserId()).getUserNickname());
                 songListTbVOList.add(songListTbVO);

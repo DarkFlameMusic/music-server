@@ -4,10 +4,12 @@ package com.musicweb.music.controller;
 import com.github.pagehelper.PageInfo;
 import com.musicweb.music.VO.*;
 import com.musicweb.music.entity.AlbumTb;
+import com.musicweb.music.entity.SingerTb;
 import com.musicweb.music.enums.CommentTypeEnum;
 import com.musicweb.music.service.impl.AlbumTbServiceImpl;
 import com.musicweb.music.service.impl.CommentTbServiceImpl;
 import com.musicweb.music.service.impl.SingerTbServiceImpl;
+import com.musicweb.music.service.impl.SongTbServiceImpl;
 import com.musicweb.music.utils.DateUtil;
 import com.musicweb.music.utils.ResultVOUtil;
 import com.musicweb.music.utils.UploadUtil;
@@ -39,6 +41,9 @@ public class AlbumController extends BasePageController {
     @Autowired
     private CommentTbServiceImpl commentTbService;
 
+    @Autowired
+    private SongTbServiceImpl songTbService;
+
     //首页最新专辑
     @ApiOperation(value = "获取首页最新专辑")
     @GetMapping(value = "/newAlbum")
@@ -62,11 +67,19 @@ public class AlbumController extends BasePageController {
         AlbumTbPageVO albumTbPageVO = new AlbumTbPageVO();
         BeanUtils.copyProperties(albumTb, albumTbPageVO);
         List<SongTbVO> songTbVOList = getInclude(albumId, CommentTypeEnum.ALBUM_COMMENT.getCode());
+        List<SongTbVO> songTbVOListResult = new ArrayList<>();
+        for (SongTbVO songTbVO : songTbVOList) {
+            songTbVO.setSingerName(singerTbService.findBySingerId(songTbService.findBySongId(songTbVO.getSongId()).getSingerId()).getSingerName());
+            songTbVO.setSingerId(singerTbService.findBySingerId(songTbService.findBySongId(songTbVO.getSongId()).getSingerId()).getSingerId());
+            songTbVO.setAlbumName(albumTbService.findByAlbumId(songTbVO.getAlbumId()).getAlbumName());
+            songTbVO.setImage(albumTbService.findByAlbumId(songTbVO.getAlbumId()).getAlbumImg());
+            songTbVOListResult.add(songTbVO);
+        }
         albumTbPageVO.setSingerName(singerTbService.findBySingerId(albumTb.getSingerId()).getSingerName());
         albumTbPageVO.setIssueTime(DateUtil.dateToString(albumTb.getIssueTime()));
         albumTbPageVO.setSongTotal(songTbVOList.size());
         albumTbPageVO.setAlbumLiker(getLiker(albumId, CommentTypeEnum.ALBUM_COMMENT.getCode()));
-        albumTbPageVO.setInAlbum(songTbVOList);
+        albumTbPageVO.setInAlbum(songTbVOListResult);
         albumTbPageVO.setSimilarAlbum(getSimilar(albumTb.getCompanyName(), CommentTypeEnum.ALBUM_COMMENT.getCode()));
         albumTbPageVO.setAlbumGoodComment(handleComment(commentTbService.findSortAdmireNumber(albumId, CommentTypeEnum.ALBUM_COMMENT.getCode(), 100)));
         albumTbPageVO.setAlbumComment(getCommentPage(1, albumId, CommentTypeEnum.ALBUM_COMMENT.getCode()));
@@ -75,25 +88,27 @@ public class AlbumController extends BasePageController {
 
 
     //TODO 新碟上架
-    @ApiOperation(value = "新碟上架模块", notes = "热门新碟和全部新碟")
-    @GetMapping(value = "/discover/album")
-    public ResultVO discoverAlbum() {
+    @ApiOperation(value = "新碟上架模块", notes = "热门新碟")
+    @GetMapping(value = "/discover/hotalbum")
+    public ResultVO discoverHotAlbum() {
         //热门新碟 10
         List<AlbumTb> albumTbList = albumTbService.findSortPlayNumberAndIssueTime();
         List<AlbumTbVO> albumTbVOList = getAlbumTbVOList(albumTbList);
+
+        return ResultVOUtil.success(albumTbVOList);
+    }
+
+    @ApiOperation(value = "新碟上架模块", notes = "全部新碟")
+    @GetMapping(value = "/discover/allalbum")
+    public ResultVO discoverAllAlbum() {
         //全部新碟
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(Calendar.MONTH, -1);
         PageInfo<AlbumTb> albumTbPageInfo = albumTbService.findSortIssueTime(calendar.getTime(), PAGEMINNUMBER, PAGEMAXSIZE);
         List<AlbumTbVO> albumTbVOList1 = getAlbumTbVOList(albumTbPageInfo.getList());
-        ;
-        List<List<AlbumTbVO>> lists = new ArrayList<>();
-        lists.add(albumTbVOList);
-        lists.add(albumTbVOList1);
 
-
-        return ResultVOUtil.success(lists);
+        return ResultVOUtil.success(albumTbVOList1);
     }
 
     //全部新碟
@@ -114,6 +129,8 @@ public class AlbumController extends BasePageController {
         for (AlbumTb albumTb : list) {
             AlbumTbVO albumTbVO = new AlbumTbVO();
             BeanUtils.copyProperties(albumTb, albumTbVO);
+            SingerTb singerTb = singerTbService.findBySingerId(albumTb.getSingerId());
+            albumTbVO.setSingerName(singerTb.getSingerName());
             albumTbVOList.add(albumTbVO);
         }
         return albumTbVOList;

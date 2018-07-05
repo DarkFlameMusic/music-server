@@ -7,6 +7,7 @@ import com.musicweb.music.entity.*;
 import com.musicweb.music.enums.CommentTypeEnum;
 import com.musicweb.music.enums.ExceptionEnum;
 import com.musicweb.music.exception.MusicException;
+import com.musicweb.music.service.AlbumTbService;
 import com.musicweb.music.service.impl.*;
 import com.musicweb.music.utils.*;
 import io.jsonwebtoken.Claims;
@@ -135,6 +136,15 @@ public class SongListController extends BasePageController{
         List<UserCollectSongListVO> userCollectSongListVOList = getLiker(songListId,CommentTypeEnum.SONG_LIST_COMMENT.getCode());
 //        List<SongListCommentDataVO> songListCommentDataVOList = new ArrayList<>();
         List<SongTbVO> songTbVOList = getInclude(songListId,CommentTypeEnum.SONG_LIST_COMMENT.getCode());
+        List<SongTbVO> songTbVOListResult = new ArrayList<>();
+        for (SongTbVO songTbVO : songTbVOList) {
+            songTbVO.setSingerName(singerTbService.findBySingerId(songTbService.findBySongId(songTbVO.getSongId()).getSingerId()).getSingerName());
+            songTbVO.setSingerId(singerTbService.findBySingerId(songTbService.findBySongId(songTbVO.getSongId()).getSingerId()).getSingerId());
+            songTbVO.setAlbumName(albumTbService.findByAlbumId(songTbVO.getAlbumId()).getAlbumName());
+            songTbVO.setImage(albumTbService.findByAlbumId(songTbVO.getAlbumId()).getAlbumImg());
+            songTbVOListResult.add(songTbVO);
+        }
+
         SongListPageVO songListPageVO = new SongListPageVO();
 //        SongListCommentVO songListCommentVO = new SongListCommentVO();
         songListPageVO.setUserNickname(userTb.getUserNickname());
@@ -195,7 +205,7 @@ public class SongListController extends BasePageController{
 //        }
 
 
-        songListPageVO.setSongListSongs(songTbVOList);
+        songListPageVO.setSongListSongs(songTbVOListResult);
 
 
 //        songListCommentVO.setCommentNumber(songListCommentDataVOList.size());
