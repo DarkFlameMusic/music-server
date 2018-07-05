@@ -192,6 +192,9 @@ public class UserFunctionController {
                             @RequestParam("songId") Integer songId) {
         Claims claims = TokenUtil.parseToken(CookieUtil.get(request, "Token").getValue());
         Integer userId = Integer.valueOf(claims.getId());
+        if (songListSongTbService.findBySongListIdAndSongId(songListId,songId) != null){
+            throw new MusicException(ExceptionEnum.REPEAT_INSERT);
+        }
         SongListSongTb songListSongTb = new SongListSongTb();
         songListSongTb.setSongListId(songListId);
         songListSongTb.setSongId(songId);
@@ -226,6 +229,9 @@ public class UserFunctionController {
                                     @RequestParam("songListId") Integer songListId) {
         Claims claims = TokenUtil.parseToken(CookieUtil.get(request, "Token").getValue());
         Integer userId = Integer.valueOf(claims.getId());
+        if (collectSongListTbService.findBySongListIdAndUserId(songListId,userId) != null){
+            throw new MusicException(ExceptionEnum.REPEAT_COLLECT);
+        }
         CollectSongListTb collectSongListTb = new CollectSongListTb();
         collectSongListTb.setUserId(userId);
         collectSongListTb.setSongListId(songListId);
@@ -261,6 +267,9 @@ public class UserFunctionController {
                                   @RequestParam("userAttentionId") Integer userAttentionId) {
         Claims claims = TokenUtil.parseToken(CookieUtil.get(request, "Token").getValue());
         Integer userId = Integer.valueOf(claims.getId());
+        if (attentionTbService.findByUserIdAndUserAttentionId(userId,userAttentionId) != null){
+            throw new MusicException(ExceptionEnum.REPEAT_ATTENTION);
+        }
         AttentionTb attentionTb = new AttentionTb();
         attentionTb.setUserId(userId);
         attentionTb.setUserAttentionId(userAttentionId);

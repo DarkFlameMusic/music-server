@@ -11,4 +11,6 @@ public interface AttentionTbService {
     Integer insertOne(AttentionTb attentionTb);
 
     Integer deleteByAttentionId(Integer attentionId);
+
+    AttentionTb findByUserIdAndUserAttentionId(Integer userId,Integer userAttentionId);
 }
