@@ -113,8 +113,8 @@ public class MyMusicController extends BasePageController {
         List<SongListTb> songListTb = songListTbService.findBySongListNameAndUserId("我喜欢的音乐",userId);
         BeanUtils.copyProperties(songListTb.get(0),songListPageVO);
 
-//        songListPageVO.setUserId(userId);
-//        songListPageVO.setUserNickname(userTb.getUserNickname());
+        songListPageVO.setUserId(userId);
+        songListPageVO.setUserNickname(userTb.getUserNickname());
         List<UserListenTb> userListenTbList = userListenTbService.findByUserId(userId);
         Integer total = 0;
         for (UserListenTb userListenTb : userListenTbList) {
@@ -123,7 +123,7 @@ public class MyMusicController extends BasePageController {
         songListPageVO.setPlayNumber(total);
         songListPageVO.setSongTotal(favorSongTbList.size());
         songListPageVO.setCreateTime(DateUtil.dateToString(userTb.getCreateTime()));
-//        songListPageVO.setHeadImg("default");
+        songListPageVO.setHeadImg("default");
         for (FavorSongTb favorSongTb : favorSongTbList) {
             SongTbVO songTbVO = new SongTbVO();
             BeanUtils.copyProperties(songTbService.findBySongId(favorSongTb.getSongId()), songTbVO);
@@ -132,10 +132,12 @@ public class MyMusicController extends BasePageController {
         songListPageVO.setSongListSongs(songTbVOList);
         myMusicPageVO.setMySongList(songListPageVO);
 
+        //创建的歌单
         List<SongListTb> songListTbList = songListTbService.findByUserId(userId);
         myMusicPageVO.setCreateSongListTotal(songListTbList.size());
         myMusicPageVO.setCreateSongList(toSongListVO(songListTbList));
 
+        //收藏的歌单
         List<CollectSongListTb> collectSongListTbList = collectSongListTbService.findByUserId(userId);
         myMusicPageVO.setCollectSongListTotal(collectSongListTbList.size());
         List<SongListTb> songListTbList1 = new ArrayList<>();
@@ -143,9 +145,9 @@ public class MyMusicController extends BasePageController {
             songListTbList1.add(songListTbService.findBySongListId(collectSongListTb.getSongListId()));
         }
         if (toSongListVO(songListTbList1) == null){
-            myMusicPageVO.setCreateSongList(null);
+            myMusicPageVO.setCollectSongList(null);
         }else {
-            myMusicPageVO.setCreateSongList(toSongListVO(songListTbList1));
+            myMusicPageVO.setCollectSongList(toSongListVO(songListTbList1));
         }
 
 
