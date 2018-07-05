@@ -73,27 +73,25 @@ public class LoginAndRegisterController {
     //TODO  注册功能
     @ApiOperation(value = "注册",notes = "传入用户名 密码 昵称")
     @PostMapping(value = "/signin")
-    public ResultVO signIn(@RequestBody @Valid UserTb userTb,
-                           BindingResult bindingResult){
+    public ResultVO signIn(@RequestParam("username") String username,
+                           @RequestParam("password") String password){
 //        UserTb userTb = new UserTb();
 //        userTb.setUsername(username);
 //        userTb.setPassword(password);
 //        userTb.setUserNickname(userNickname);
+        UserTb userTb = new UserTb();
 
-        if(bindingResult.hasErrors()){
-            return ResultVOUtil.error(-1,bindingResult.getFieldError().getDefaultMessage());
-        }
-        if (userTbService.findByUsername(userTb.getUsername()) != null){
+        if (userTbService.findByUsername(username) != null){
             throw new MusicException(ExceptionEnum.USERNAME_REPEAT);
         }
 
 
         //用户输入属性
-        userTb.setUsername(userTb.getUsername());
-        userTb.setPassword(MD5Util.getMD5(userTb.getPassword()));
-        userTb.setUserNickname(userTb.getUserNickname());
+        userTb.setUsername(username);
+        userTb.setPassword(MD5Util.getMD5(password));
+        userTb.setUserNickname("user");
         //默认属性
-        userTb.setMail(userTb.getUsername());
+        userTb.setMail(username);
         userTb.setJurisdiction(UserJurisdictionEnum.WAIT.getCode());
         userTb.setGender(GenderEnum.UNKNOWN_GENDER.getCode());
 
@@ -103,7 +101,7 @@ public class LoginAndRegisterController {
         String captcha = UUID.randomUUID().toString();
         String message = "http://localhost:8080/api/register?code="+captcha;
         //TODO 发送邮件失败然后xxxxxx
-        mailService.sendMail(userTb.getUsername(),"test",message);
+        mailService.sendMail(username,"test",message);
 
         userTb.setCaptcha(captcha);
 
