@@ -35,4 +35,10 @@
         collect_song_list_tb
         WHERE collect_song_list_id=#{collectSongListId}
     </delete>
+
+    <select id="findBySongListIdAndUserId" resultMap="BaseResultMap">
+        SELECT *
+        FROM collect_song_list_tb
+        WHERE song_list_id=#{arg0} AND user_id=#{arg1}
+    </select>
 </mapper>

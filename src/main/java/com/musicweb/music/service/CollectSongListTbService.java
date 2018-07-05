@@ -13,4 +13,6 @@ public interface CollectSongListTbService {
     Integer insertOne(CollectSongListTb collectSongListTb);
 
     Integer deleteOne(Integer collectSongListId);
+
+    CollectSongListTb findBySongListIdAndUserId(Integer songListId,Integer userId);
 }

@@ -13,4 +13,6 @@ public interface CollectSongListTbMapper {
     int insertOne(CollectSongListTb collectSongListTb);
 
     int deleteOne(Integer collectSongListId);
+
+    CollectSongListTb findBySongListIdAndUserId(Integer SongListId,Integer userId);
 }

@@ -22,7 +22,11 @@ public enum ExceptionEnum {
     COOKIE_NULL(321465,"cookie为空"),
     UPDATE_ERROR(60000,"更新失败"),
     INSERT_ERROR(60001,"添加失败"),
-    LOGIN_NULL(45666,"未登录")
+    LOGIN_NULL(45666,"未登录"),
+    REPEAT_INSERT(77789,"已添加"),
+    REPEAT_COLLECT(23121,"已收藏"),
+    REPEAT_ATTENTION(11788,"已关注");
+
     ;
 
 

@@ -34,4 +34,9 @@ public class CollectSongListTbServiceImpl implements CollectSongListTbService {
     public Integer deleteOne(Integer collectSongListId) {
         return mapper.deleteOne(collectSongListId);
     }
+
+    @Override
+    public CollectSongListTb findBySongListIdAndUserId(Integer songListId, Integer userId) {
+        return mapper.findBySongListIdAndUserId(songListId,userId);
+    }
 }

@@ -15,4 +15,6 @@ public interface AttentionTbMapper {
     int deleteByAttentionId(Integer attentionId);
 
     int updateByAttentionId(Integer attentionId);
+
+    AttentionTb findByUserIdAndUserAttentionId(Integer userId,Integer userAttentionId);
 }

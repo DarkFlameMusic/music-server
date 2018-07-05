@@ -61,4 +61,9 @@ public class AttentionTbServiceImpl implements AttentionTbService{
         result = mapper.deleteByAttentionId(attentionId);
         return result;
     }
+
+    @Override
+    public AttentionTb findByUserIdAndUserAttentionId(Integer userId, Integer userAttentionId) {
+        return mapper.findByUserIdAndUserAttentionId(userId,userAttentionId);
+    }
 }

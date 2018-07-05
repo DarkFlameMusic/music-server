@@ -44,4 +44,10 @@
         WHERE attention_id=#{attentionId}
     </update>
 
+    <select id="findByUserIdAndUserAttentionId" resultMap="BaseResultMap">
+        SELECT *
+        FROM attention_tb
+        WHERE user_id=#{arg0} AND user_attention_id=#{arg1}
+    </select>
+
 </mapper>
