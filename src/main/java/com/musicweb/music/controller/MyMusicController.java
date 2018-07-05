@@ -65,7 +65,7 @@ public class MyMusicController extends BasePageController {
     private UserListenTbServiceImpl userListenTbService;
 
 
-    //TODO 我的歌手详情页
+    //我的歌手详情页
     @ApiOperation(value = "关注的歌手",notes = "关注的歌手详情")
     @GetMapping(value = "/artist")
     public ResultVO artist(HttpServletRequest request) {
@@ -97,14 +97,21 @@ public class MyMusicController extends BasePageController {
     @ApiOperation(value = "我的音乐页面")
     @GetMapping(value = "/mysonglist")
     public ResultVO mySongList(HttpServletRequest request) {
-        Claims claims = TokenUtil.parseToken(CookieUtil.get(request, "Token").getValue());
-        Integer userId = Integer.valueOf(claims.getId());
+        Integer userId = null;
+        try {
+            Claims claims = TokenUtil.parseToken(CookieUtil.get(request, "Token").getValue());
+            userId = Integer.valueOf(claims.getId());
+        }catch (Exception e){
+            throw new MusicException(ExceptionEnum.LOGIN_NULL);
+        }
+
         MyMusicPageVO myMusicPageVO = new MyMusicPageVO();
         UserTb userTb = userTbService.findById(userId);
         List<FavorSongTb> favorSongTbList = favorSongTbService.findByUserId(userId);
         List<SongTbVO> songTbVOList = new ArrayList<>();
         SongListPageVO songListPageVO = new SongListPageVO();
-        songListPageVO.setSongListName("我喜欢的音乐");
+        List<SongListTb> songListTb = songListTbService.findBySongListNameAndUserId("我喜欢的音乐",userId);
+        BeanUtils.copyProperties(songListTb.get(0),songListPageVO);
 
 //        songListPageVO.setUserId(userId);
 //        songListPageVO.setUserNickname(userTb.getUserNickname());
@@ -135,7 +142,13 @@ public class MyMusicController extends BasePageController {
         for (CollectSongListTb collectSongListTb : collectSongListTbList) {
             songListTbList1.add(songListTbService.findBySongListId(collectSongListTb.getSongListId()));
         }
-        myMusicPageVO.setCreateSongList(toSongListVO(songListTbList1));
+        if (toSongListVO(songListTbList1) == null){
+            myMusicPageVO.setCreateSongList(null);
+        }else {
+            myMusicPageVO.setCreateSongList(toSongListVO(songListTbList1));
+        }
+
+
 
         //喜欢的歌手总数
         List<FavorSingerTb> favorSingerTbList = favorSingerTbService.findByUserId(userId);
@@ -146,16 +159,20 @@ public class MyMusicController extends BasePageController {
 
     private List<SongListTbVO> toSongListVO(List<SongListTb> songListTbList) {
         List<SongListTbVO> songListTbVOList = new ArrayList<>();
-        for (SongListTb songListTb : songListTbList) {
-            SongListTbVO songListTbVO = new SongListTbVO();
-            BeanUtils.copyProperties(songListTb, songListTbVO);
-            songListTbVO.setSongTotal(songListSongTbService.findBySongListId(songListTb.getSongListId()).size() + "首");
-            songListTbVOList.add(songListTbVO);
+        if (songListTbList == null){
+            return null;
+        }else {
+            for (SongListTb songListTb : songListTbList) {
+                SongListTbVO songListTbVO = new SongListTbVO();
+                BeanUtils.copyProperties(songListTb, songListTbVO);
+                songListTbVO.setSongTotal(songListSongTbService.findBySongListId(songListTb.getSongListId()).size());
+                songListTbVOList.add(songListTbVO);
+            }
+            return songListTbVOList;
         }
-        return songListTbVOList;
     }
 
-    //TODO 用户创建歌单详情页
+    //用户创建歌单详情页
     @ApiOperation(value = "用户创建的歌单详情",notes = "在url中输入歌单id查询")
     @GetMapping(value = "/mysonglist/createlist")
     public ResultVO createList(HttpServletRequest request,

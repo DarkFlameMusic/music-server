@@ -35,4 +35,6 @@ public interface SongListTbService {
     PageInfo<SongListTb> searchBySongListName(String content, Integer pageNumber, Integer pageSize);
 
     PageInfo<SongListTb> findAll(Integer pageNumber, Integer pageSize);
+
+    List<SongListTb> findBySongListNameAndUserId(String songListName, Integer userId);
 }

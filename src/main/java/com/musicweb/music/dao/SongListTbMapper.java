@@ -61,4 +61,6 @@ public interface SongListTbMapper {
 
     int deleteBySongListNameAndUserId(String songListName,Integer userId);
 
+    List<SongListTb> findBySongListNameAndUserId(String songListName,Integer userId);
+
 }

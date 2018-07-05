@@ -119,4 +119,9 @@ public class SongListTbServiceImpl implements SongListTbService{
         PageHelper.startPage(pageNumber,pageSize);
         return new PageInfo<>(mapper.findAll());
     }
+
+    @Override
+    public List<SongListTb> findBySongListNameAndUserId(String songListName, Integer userId) {
+        return mapper.findBySongListNameAndUserId(songListName,userId);
+    }
 }
