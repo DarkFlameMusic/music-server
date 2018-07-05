@@ -234,7 +234,6 @@ public class SongListController extends BasePageController{
         for (SongListTb songListTb:songListTbPageInfo.getList()){
             SongListTbVO songListTbVO = new SongListTbVO();
             BeanUtils.copyProperties(songListTb,songListTbVO);
-            songListTbVO.setPlayNumber(IntegerUtil.to(songListTb.getPlayNumber()));
             songListTbVOList.add(songListTbVO);
         }
         return songListTbVOList;

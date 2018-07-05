@@ -1,6 +1,7 @@
 package com.musicweb.music.service;
 
 import com.github.pagehelper.PageInfo;
+import com.musicweb.music.entity.SongListTb;
 import com.musicweb.music.entity.UserTb;
 
 import java.util.List;
@@ -29,5 +30,6 @@ public interface UserTbService {
     Integer deleteById(Integer userId);
 
     PageInfo<UserTb> searchByUserNickname(String content, Integer pageNumber, Integer pageSize);
+
 
 }

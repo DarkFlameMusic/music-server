@@ -27,12 +27,12 @@ public class SongListPageVO<T> {
     private String createTime;
     @JsonProperty("image")
     private String songListImg;
-//    @JsonProperty("creatorId")
-//    private Integer userId;
-//    @JsonProperty("songlistCreaterName")
-//    private String userNickname;
-//    @JsonProperty("songlistCreaterAvatar")
-//    private String headImg;
+    @JsonProperty("creatorId")
+    private Integer userId;
+    @JsonProperty("songlistCreaterName")
+    private String userNickname;
+    @JsonProperty("songlistCreaterAvatar")
+    private String headImg;
 
     private Integer songTotal;
     @JsonProperty("songlistSongs")

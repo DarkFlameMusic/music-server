@@ -23,9 +23,9 @@ public class SongListTbVO<T> {
     private String songListImg;
     //播放数
     @JsonProperty("playCount")
-    private String playNumber;
+    private Integer playNumber;
 
-    private String songTotal;
+    private Integer songTotal;
 
 
     public Integer getSongListId() {
@@ -76,20 +76,19 @@ public class SongListTbVO<T> {
         this.songListImg = songListImg;
     }
 
-    public String getPlayNumber() {
+    public Integer getPlayNumber() {
         return playNumber;
     }
 
-    public void setPlayNumber(String playNumber) {
+    public void setPlayNumber(Integer playNumber) {
         this.playNumber = playNumber;
     }
 
-    public String getSongTotal() {
+    public Integer getSongTotal() {
         return songTotal;
     }
 
-    public void setSongTotal(String songTotal) {
+    public void setSongTotal(Integer songTotal) {
         this.songTotal = songTotal;
     }
-
 }
