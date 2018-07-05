@@ -45,7 +45,7 @@ public class LoginAspect {
         Claims claims = checkCookieAndToken(request);
         UserTb userTb = userTbService.findById(Integer.valueOf(claims.getId()));
         Integer jurisdiction = userTb.getJurisdiction();
-        if (jurisdiction != UserJurisdictionEnum.ADMIN.getCode() || jurisdiction != UserJurisdictionEnum.SINGER.getCode()){
+        if (!(jurisdiction.equals( UserJurisdictionEnum.ADMIN.getCode()) ||jurisdiction.equals(UserJurisdictionEnum.SINGER.getCode())) ){
             throw new MusicException(ExceptionEnum.JURISDICTION_ERROR);
         }
     }
