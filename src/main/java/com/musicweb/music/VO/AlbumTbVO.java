@@ -14,10 +14,10 @@ public class AlbumTbVO {
     @JsonProperty("id")
     private Integer albumId;
     //歌手名
-//    @JsonProperty("singer")
-//    private String singerName;
-//    //歌手id
-//    private Integer singerId;
+    @JsonProperty("singer")
+    private String singerName;
+    //歌手id
+    private Integer singerId;
     //专辑图
     @JsonProperty("image")
     private String albumImg;
@@ -63,21 +63,21 @@ public class AlbumTbVO {
         this.albumId = albumId;
     }
 
-//    public String getSingerName() {
-//        return singerName;
-//    }
-//
-//    public void setSingerName(String singerName) {
-//        this.singerName = singerName;
-//    }
-//
-//    public Integer getSingerId() {
-//        return singerId;
-//    }
-//
-//    public void setSingerId(Integer singerId) {
-//        this.singerId = singerId;
-//    }
+    public String getSingerName() {
+        return singerName;
+    }
+
+    public void setSingerName(String singerName) {
+        this.singerName = singerName;
+    }
+
+    public Integer getSingerId() {
+        return singerId;
+    }
+
+    public void setSingerId(Integer singerId) {
+        this.singerId = singerId;
+    }
 
     public String getAlbumImg() {
         return albumImg;
