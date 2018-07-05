@@ -137,6 +137,7 @@ public class SongListController extends BasePageController{
         List<SongTbVO> songTbVOList = getInclude(songListId,CommentTypeEnum.SONG_LIST_COMMENT.getCode());
         SongListPageVO songListPageVO = new SongListPageVO();
 //        SongListCommentVO songListCommentVO = new SongListCommentVO();
+        BeanUtils.copyProperties(songListPageVO,userTb);
         BeanUtils.copyProperties(songListTb,songListPageVO);
         songListPageVO.setCreateTime(DateUtil.dateToString(songListTb.getCreateTime()));
 //        songListPageVO.setUserNickname(userTb.getUserNickname());
