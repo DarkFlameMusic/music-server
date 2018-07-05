@@ -32,17 +32,16 @@ public class CollectSongListController {
     @Autowired
     private UserTbServiceImpl userTbService;
 
-    //TODO 未测试 用户收藏的歌单
+    // 用户收藏的歌单
     @ApiOperation(value = "获取用户收藏的歌单",notes = "在url中添加用户id获取")
     @GetMapping(value = "/storeSonglist")
     public ResultVO storeSongList(@RequestParam("userId") Integer userId){
 
         List<CollectSongListTb> collectSongListTbList = collectSongListTbService.findByUserId(userId);
         List<SongListTbVO> songListTbVOList = new ArrayList<>();
-        //TODO 待修改
         for(CollectSongListTb collectSongListTb: collectSongListTbList){
             SongListTbVO songListTbVO = new SongListTbVO();
-            UserTb userTb = userTbService.findById(collectSongListTb.getUserId());
+            UserTb userTb = userTbService.findById(songListTbService.findBySongListId(collectSongListTb.getSongListId()).getUserId());
             SongListTb songListTb = songListTbService.findBySongListId(collectSongListTb.getSongListId());
             songListTbVO.setSongListName(songListTb.getSongListName());
             songListTbVO.setSongListId(songListTb.getSongListId());

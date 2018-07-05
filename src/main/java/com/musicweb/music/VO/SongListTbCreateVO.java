@@ -18,6 +18,8 @@ public class SongListTbCreateVO {
 
     private String userNickname;
 
+    private Integer userId;
+
     public String getSongListName() {
         return songListName;
     }
@@ -56,5 +58,21 @@ public class SongListTbCreateVO {
 
     public void setPlayNumber(Integer playNumber) {
         this.playNumber = playNumber;
+    }
+
+    public String getUserNickname() {
+        return userNickname;
+    }
+
+    public void setUserNickname(String userNickname) {
+        this.userNickname = userNickname;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }

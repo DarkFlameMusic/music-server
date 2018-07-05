@@ -68,6 +68,9 @@ public class UserController {
         for (SongListTb songListTb : songListTbList) {
             SongListTbCreateVO songListTbCreateVO = new SongListTbCreateVO();
             BeanUtils.copyProperties(songListTb, songListTbCreateVO);
+            UserTb userTb = userTbService.findById(userId);
+            songListTbCreateVO.setUserId(userId);
+            songListTbCreateVO.setUserNickname(userTb.getUserNickname());
             songListTbCreateVOList.add(songListTbCreateVO);
         }
 

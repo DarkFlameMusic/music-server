@@ -101,16 +101,18 @@ public class UserFunctionController {
     //编辑个人信息
     @ApiOperation(value = "编辑个人信息")
     @PostMapping(value = "/compiledata")//应该用Put，但是用Put出现Required String parameter 'userNickname' is not present
-    public ResultVO compileData(@RequestParam("userNickname") String userNickname,
-                                @RequestParam("personIntro") String personIntro,
-                                @RequestParam("gender") Integer gender,
-                                @RequestParam("birthDate") String birthDate,
-                                @RequestParam("area") String area,
-                                HttpServletRequest request) throws ParseException {
+    public ResultVO compileData(@RequestParam(value = "userNickname",required = false) String userNickname,
+                                @RequestParam(value = "personIntro",required = false) String personIntro,
+                                @RequestParam(value = "gender",required = false) Integer gender,
+                                @RequestParam(value = "birthDate",required = false) String birthDate,
+                                @RequestParam(value = "area",required = false) String area,
+                                @RequestParam(value = "file",required = false) MultipartFile multipartFile,
+                                HttpServletRequest request) throws ParseException, IOException {
         Claims claims = TokenUtil.parseToken(CookieUtil.get(request, "Token").getValue());
         Integer userId = Integer.valueOf(claims.getId());
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date date = format.parse(birthDate);
+        FileInputStream fileInputStream = (FileInputStream) multipartFile.getInputStream();
         UserTb userTb = userTbService.findById(userId);
         VerifyUserUtil.verifyToken(userTb);
         userTb.setUserNickname(userNickname);
@@ -118,6 +120,7 @@ public class UserFunctionController {
         userTb.setGender(gender);
         userTb.setBirthDate(date);
         userTb.setArea(area);
+        userTb.setHeadImg(UploadUtil.commonUpload(fileInputStream,multipartFile.getOriginalFilename()));
         userTbService.compilePersonalData(userTb);
         UserTbVO userTbVO = new UserTbVO();
         BeanUtils.copyProperties(userTb, userTbVO);
@@ -125,7 +128,7 @@ public class UserFunctionController {
         return ResultVOUtil.success(0, "修改成功", userTbVO);
     }
 
-    //TODO 上传头像
+    //上传头像
     @ApiOperation(value = "上传头像")
     @PostMapping(value = "/upload/headimg")
     public ResultVO uploadHeadImg(HttpServletRequest request,
@@ -157,19 +160,20 @@ public class UserFunctionController {
     @ApiOperation(value = "编辑歌单")
     @PostMapping(value = "/compilesonglist")
     public ResultVO compileSongList(HttpServletRequest request,
-                                    @RequestParam("songListId") Integer songListId,
-                                    @RequestParam("songListName") String songListName,
-                                    @RequestParam("songListIntro") String songListIntro,
-                                    @RequestParam("label") String label,
-                                    @RequestParam("songListImg") String songListImg) {
+                                    @RequestParam(value = "songListId",required = false) Integer songListId,
+                                    @RequestParam(value = "songListName",required = false) String songListName,
+                                    @RequestParam(value = "songListIntro",required = false) String songListIntro,
+                                    @RequestParam(value = "label",required = false) String label,
+                                    @RequestParam(value = "file",required = false) MultipartFile multipartFile) throws IOException {
         Claims claims = TokenUtil.parseToken(CookieUtil.get(request, "Token").getValue());
         Integer userId = Integer.valueOf(claims.getId());
+        FileInputStream fileInputStream = (FileInputStream) multipartFile.getInputStream();
         SongListTb songListTb = new SongListTb();
         songListTb.setSongListId(songListId);
         songListTb.setSongListName(songListName);
         songListTb.setSongListIntro(songListIntro);
         songListTb.setLabel(label);
-        songListTb.setSongListImg(songListImg);
+        songListTb.setSongListImg(UploadUtil.commonUpload(fileInputStream,multipartFile.getOriginalFilename()));
         songListTbService.updateOne(songListTb);
         return ResultVOUtil.success(0, "修改成功", songListTb);
     }
