@@ -126,29 +126,29 @@ public class SongListPageVO<T> {
         this.songListImg = songListImg;
     }
 
-//    public Integer getUserId() {
-//        return userId;
-//    }
-//
-//    public void setUserId(Integer userId) {
-//        this.userId = userId;
-//    }
-//
-//    public String getUserNickname() {
-//        return userNickname;
-//    }
-//
-//    public void setUserNickname(String userNickname) {
-//        this.userNickname = userNickname;
-//    }
-//
-//    public String getHeadImg() {
-//        return headImg;
-//    }
-//
-//    public void setHeadImg(String headImg) {
-//        this.headImg = headImg;
-//    }
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getUserNickname() {
+        return userNickname;
+    }
+
+    public void setUserNickname(String userNickname) {
+        this.userNickname = userNickname;
+    }
+
+    public String getHeadImg() {
+        return headImg;
+    }
+
+    public void setHeadImg(String headImg) {
+        this.headImg = headImg;
+    }
 
     public Integer getSongTotal() {
         return songTotal;
