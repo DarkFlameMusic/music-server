@@ -15,6 +15,7 @@ import com.musicweb.music.exception.MusicException;
 import com.musicweb.music.service.SongTbService;
 import com.musicweb.music.service.impl.*;
 import com.musicweb.music.utils.*;
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.w3c.dom.ls.LSException;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -295,10 +297,17 @@ public class AdminFunctionController extends BasePageController {
     @GetMapping("/get/all")
     public ResultVO getAllSongList(@RequestParam(value = "title", required = false) String title,
                                    @RequestParam("content") String content,
-                                   @RequestParam(value = "singerId", required = false) Integer singerId,
                                    @RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber,
-                                   @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize) {
+                                   @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize,
+                                   HttpServletRequest request) {
         PageResultVO pageResultVO = null;
+        Claims claims = TokenUtil.parseToken(CookieUtil.get(request,"Token").getValue());
+        Integer userId = Integer.valueOf(claims.getId());
+        Integer singerId = null;
+        SingerTb singerTb = singerTbService.findByUserId(userId);
+        if (singerTb != null) {
+            singerId=singerTb.getSingerId();
+        }
         switch (content) {
             case "song":
                 if (title != null) {
