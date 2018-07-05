@@ -48,7 +48,7 @@ public class AlbumController extends BasePageController {
         for (int i = 0; i < n; i++) {
             AlbumTbVO albumTbVO = new AlbumTbVO();
             BeanUtils.copyProperties(albumTbList.get(i), albumTbVO);
-//            albumTbVO.setSingerName(singerTbService.findBySingerId(albumTbList.get(i).getSingerId()).getSingerName());
+            albumTbVO.setSingerName(singerTbService.findBySingerId(albumTbList.get(i).getSingerId()).getSingerName());
             albumTbVOList.add(albumTbVO);
         }
         return ResultVOUtil.success(albumTbVOList);
