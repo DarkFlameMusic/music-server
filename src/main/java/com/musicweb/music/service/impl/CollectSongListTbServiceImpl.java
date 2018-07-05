@@ -1,8 +1,11 @@
 package com.musicweb.music.service.impl;
 
 import com.musicweb.music.dao.CollectSongListTbMapper;
+import com.musicweb.music.dao.SongListTbMapper;
+import com.musicweb.music.entity.SongListTb;
 import com.musicweb.music.entity.collecttable.CollectSongListTb;
 import com.musicweb.music.service.CollectSongListTbService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,9 @@ public class CollectSongListTbServiceImpl implements CollectSongListTbService {
 
     @Autowired
     private CollectSongListTbMapper mapper;
+
+    @Autowired
+    private SongListTbMapper songListTbMapper;
 
     @Override
     public List<CollectSongListTb> findByUserId(Integer userId) {
@@ -27,6 +33,12 @@ public class CollectSongListTbServiceImpl implements CollectSongListTbService {
 
     @Override
     public Integer insertOne(CollectSongListTb collectSongListTb) {
+        SongListTb songListTb = songListTbMapper.findBySongListId(collectSongListTb.getSongListId());
+        if (songListTb.getCollectNumber() == null){
+            songListTb.setCollectNumber(1);
+        }else{
+            songListTb.setCollectNumber(songListTb.getCollectNumber()+1);
+        }
         return mapper.insertOne(collectSongListTb);
     }
 
