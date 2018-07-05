@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class SongListTbCreateVO {
 
 
-    @JsonProperty("songlistNmae")
+    @JsonProperty("songlistName")
     private String songListName;
-    @JsonProperty("songlsitId")
+    @JsonProperty("songlistId")
     private Integer songListId;
     @JsonProperty("tag")
     private String label;
@@ -16,6 +16,7 @@ public class SongListTbCreateVO {
     @JsonProperty("playCount")
     private Integer playNumber;
 
+    @JsonProperty("nickName")
     private String userNickname;
 
     private Integer userId;
