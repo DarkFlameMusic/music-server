@@ -36,4 +36,10 @@ mapper:
     config:
       path: /mapper/*.xml
 
+server:
+  port:
+    8081
+
+
+
 
